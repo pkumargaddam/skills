@@ -23,46 +23,91 @@ Notes:
 
 ```apache
 /cache {
-  /docroot "/var/www/html"
+  /docroot "${DOCROOT}"
   /statfileslevel "2"
   /enableTTL "1"
   /allowAuthorized "0"
   /serveStaleOnError "1"
-  /gracePeriod "5"
+  /gracePeriod "2"
 }
 ```
 
+## Marketing Query Parameter Baseline
+
+```apache
+/ignoreUrlParams {
+  /0001 { /glob "*" /type "deny" }
+  /0002 { /glob "q" /type "allow" }
+  $include "../cache/marketing_query_parameters.any"
+}
+```
+
+## Client Headers Baseline Extension
+
+```apache
+# Keep the managed default header set, then add only what is needed
+$include "./default_clientheaders.any"
+"X-Custom-App-Header"
+```
+
+Notes:
+- do not remove `Authorization`, `Cookie`, `Host`, `X-Forwarded-Proto`, or `x-request-id` without explicit feature impact review
+- treat clientheaders edits as upstream contract changes, not cosmetic cleanup
+
+## Probe-Safe Canonical Redirect Guard
+
+```apache
+RewriteCond %{REQUEST_URI} !^/systemready$
+RewriteCond %{REQUEST_URI} !^/system/probes/
+RewriteRule ^ https://www.example.com%{REQUEST_URI} [R=301,L]
+```
+
+## Persisted Query Cache Rewrite Guard
+
+```apache
+RewriteCond %{REQUEST_URI} ^/graphql/execute.json
+RewriteRule ^/(.*)$ /$1;.json [PT]
+```
+
 ## Permission-Sensitive Caching (`/auth_checker`)
+
+**AEM requirement:** A servlet must exist at `/bin/permissioncheck` (HEAD/GET, param `uri`, return 200 when authorized and 403 when not). Create it in the project core bundle and allowlist the path on publish via `SlingServletResolver` config. Without the servlet, Dispatcher has nothing to call. See [Cache secured content](https://experienceleague.adobe.com/en/docs/experience-manager-dispatcher/using/configuring/permissions-cache).
 
 ```apache
 /auth_checker {
   /url "/bin/permissioncheck"
   /filter {
-    /0001 { /type "allow" /glob "/content/secure/*" }
-    /0002 { /type "deny" /glob "*" }
+    /0000 { /type "deny" /glob "*" }
+    /0001 { /type "allow" /glob "/content/secure/*.html" }
   }
   /headers {
-    "Cookie"
-    "Authorization"
+    /0000 { /type "deny" /glob "*" }
+    /0001 { /type "allow" /glob "Set-Cookie:*" }
   }
 }
 ```
 
-## HTTPS Vhost Baseline
+Set `/allowAuthorized "1"` in `/cache`. Ensure the farm filter allows only GET/HEAD to `/bin/permissioncheck` (least privilege). Request headers Cookie and Authorization are forwarded via `/clientheaders` (default_clientheaders.any).
+
+## Cloud Header / Redirect Baseline
 
 ```apache
 <VirtualHost *:80>
   ServerName www.example.com
-  Redirect permanent / https://www.example.com/
-</VirtualHost>
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} !^/systemready$
+  RewriteCond %{REQUEST_URI} !^/system/probes/
+  RewriteRule ^ https://www.example.com%{REQUEST_URI} [R=301,L]
 
-<VirtualHost *:443>
-  ServerName www.example.com
-  SSLEngine on
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set X-Content-Type-Options "nosniff"
 </VirtualHost>
 ```
+
+Notes:
+- for cloud-service, keep examples aligned to the managed `*:80` Apache shape; upstream TLS termination still allows response header injection such as HSTS
+- do not copy a standalone `*:443` vhost pattern into the cloud dispatcher repo
 
 ## CORS Baseline (Headless/API)
 

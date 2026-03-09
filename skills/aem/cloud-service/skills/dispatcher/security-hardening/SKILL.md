@@ -1,6 +1,6 @@
 ---
 name: security-hardening
-description: Perform Dispatcher and Apache HTTPD security audits for AEMaaCS cloud workflows only, with cloud-specific hardening verification.
+description: Perform security audits for the Adobe Dispatcher Apache HTTP Server module and Apache HTTPD in AEMaaCS cloud workflows only, with cloud-specific hardening verification.
 license: Apache-2.0
 compatibility: Requires Dispatcher MCP configured for cloud variant (`AEM_DEPLOYMENT_MODE=cloud`).
 allowed-tools:
@@ -17,12 +17,12 @@ metadata:
 
 # Dispatcher Security Hardening (Cloud)
 
-Deliver evidence-backed security findings and remediations for cloud workflows.
+Deliver evidence-backed security findings and remediations for cloud workflows that use the Adobe Dispatcher Apache HTTP Server module and related HTTPD configuration.
 
 ## Variant Scope
 
 - This skill is cloud-service-only.
-- Scope is fixed by this plugin path; do not ask the user to choose deployment variant.
+- Scope is fixed by this skill directory; do not ask the user to choose deployment variant.
 
 ## MCP Tool Contract
 
@@ -39,7 +39,7 @@ Use only these Dispatcher MCP tools:
 ## Workflow
 
 1. Define threat model and audit scope.
-2. Apply cloud guardrails (immutable/default include constraints and CDN-vs-Dispatcher ownership).
+2. Apply cloud guardrails (immutable/default include constraints, reserved probe-path behavior, and CDN-vs-Dispatcher ownership).
 3. Gather baseline evidence (`validate`, `lint`, `sdk`).
 4. Verify exposure controls (`trace_request`).
 5. Verify cache/header protections (`inspect_cache`, `tail_logs`, `monitor_metrics`).
@@ -49,8 +49,8 @@ Use only these Dispatcher MCP tools:
 
 Use shared references to select security evidence depth:
 
-- [mode-specific-verification-matrix.md](../shared/references/technical-advisory/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/technical-advisory/test-case-catalog.md)
+- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
 
 ## Output Contract
 
@@ -79,8 +79,13 @@ Always return:
 - [sensitive-paths-catalog.md](./references/security-hardening/sensitive-paths-catalog.md)
 - [owasp-coverage-matrix.md](./references/security-hardening/owasp-coverage-matrix.md)
 - [security-audit-report-template.md](./references/security-hardening/security-audit-report-template.md)
-- [mode-specific-verification-matrix.md](../shared/references/technical-advisory/mode-specific-verification-matrix.md)
-- [cloud-service-aemaacs-guardrails.md](../shared/references/technical-advisory/cloud-service-aemaacs-guardrails.md) – cloud-service-only immutable/include/runtime boundary checks from AEMaaCS patterns
-- [test-case-catalog.md](../shared/references/technical-advisory/test-case-catalog.md)
-- [change-risk-and-rollback-template.md](../shared/references/technical-advisory/change-risk-and-rollback-template.md)
-- [public-doc-citation-rules.md](../shared/references/technical-advisory/public-doc-citation-rules.md)
+- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) – single entry path for broad or first-time audits
+- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md) – map findings to actual dispatcher file families
+- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md) – exact MCP command chains for security playbooks
+- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [cloud-service-aemaacs-guardrails.md](../shared/references/dispatcher-foundation/cloud-service-aemaacs-guardrails.md) – cloud-service-only immutable/include/runtime boundary checks from AEMaaCS patterns
+- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
+- [change-risk-and-rollback-template.md](../shared/references/dispatcher-foundation/change-risk-and-rollback-template.md)
+- [public-docs-index.md](../shared/references/dispatcher-foundation/public-docs-index.md)
+- [public-doc-citation-rules.md](../shared/references/dispatcher-foundation/public-doc-citation-rules.md)
+- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)

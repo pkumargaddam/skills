@@ -53,11 +53,12 @@ Use these deterministic playbooks for high-precision config authoring with the c
 
 ## Playbook G: Permission-Sensitive Caching (`/auth_checker`)
 
-1. Scope protected paths and auth-check endpoint contract.
-2. Add/update `/auth_checker` with least-privilege path scope.
-3. Ensure filter allows only the required auth-check endpoint.
-4. Validate and lint for overexposure or bypass risk.
-5. Verify one protected URL and one public URL with `trace_request` + `inspect_cache`.
+1. **Create and deploy the auth-check servlet (AEM side).** Without this, Dispatcher has nothing to call. Implement a servlet at `/bin/permissioncheck` that: accepts HEAD (and optionally GET), reads query param `uri`, uses the request session to check read permission on that path (e.g. `session.checkPermission(uri, Session.ACTION_READ)`), returns 200 if authorized and 403 if not. Register with `sling.servlet.paths=/bin/permissioncheck` and allowlist that path on publish (e.g. `config.publish/org.apache.sling.servlets.resolver.SlingServletResolver.cfg.json` with `sling.servlet.paths`). See [Cache secured content](https://experienceleague.adobe.com/en/docs/experience-manager-dispatcher/using/configuring/permissions-cache).
+2. Scope protected paths and auth-check endpoint contract.
+3. Add/update `/auth_checker` in the farm with least-privilege path scope; set `/allowAuthorized "1"` in `/cache`.
+4. Ensure filter allows only the required auth-check endpoint (e.g. GET/HEAD `/bin/permissioncheck` only).
+5. Validate and lint for overexposure or bypass risk.
+6. Verify one protected URL and one public URL with `trace_request` + `inspect_cache`.
 
 ## Playbook H: CORS and Preflight for APIs
 

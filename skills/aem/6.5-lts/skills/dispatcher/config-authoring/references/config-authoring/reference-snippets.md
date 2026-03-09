@@ -83,19 +83,23 @@ Replace allow IPs with actual publish/flush-agent source addresses.
 
 ## Permission-Sensitive Caching (`/auth_checker`)
 
+**AEM requirement:** A servlet must exist at `/bin/permissioncheck` (HEAD/GET, param `uri`, return 200 when authorized and 403 when not). Create it in the project core bundle and allowlist the path on publish via `SlingServletResolver` config. Without the servlet, Dispatcher has nothing to call. See [Cache secured content](https://experienceleague.adobe.com/en/docs/experience-manager-dispatcher/using/configuring/permissions-cache).
+
 ```apache
 /auth_checker {
   /url "/bin/permissioncheck"
   /filter {
-    /0001 { /type "allow" /glob "/content/secure/*" }
-    /0002 { /type "deny" /glob "*" }
+    /0000 { /type "deny" /glob "*" }
+    /0001 { /type "allow" /glob "/content/secure/*.html" }
   }
   /headers {
-    "Cookie"
-    "Authorization"
+    /0000 { /type "deny" /glob "*" }
+    /0001 { /type "allow" /glob "Set-Cookie:*" }
   }
 }
 ```
+
+Set `/allowAuthorized "1"` in `/cache`. Ensure the farm filter allows only GET/HEAD to `/bin/permissioncheck` (least privilege). Request headers Cookie and Authorization are forwarded via `/clientheaders` (default_clientheaders.any).
 
 ## HTTPS Vhost Baseline
 

@@ -13,7 +13,7 @@ Repository of Adobe skills for AI coding agents.
 # Install AEM Edge Delivery Services plugin (all 17 skills)
 /plugin install aem-edge-delivery-services@adobe-skills
 
-# Install AEM Cloud Dispatcher plugin
+# Install AEM as a Cloud Service Dispatcher plugin
 /plugin install aem-cloud-service-dispatcher@adobe-skills
 
 # Install AEM 6.5 LTS Dispatcher plugin
@@ -26,16 +26,16 @@ Repository of Adobe skills for AI coding agents.
 # Install all AEM Edge Delivery Services skills
 npx skills add https://github.com/adobe/skills/tree/main/skills/aem/edge-delivery-services --all
 
-# Install all AEM Cloud Dispatcher skills
+# Install all AEM as a Cloud Service Dispatcher skills
 npx skills add https://github.com/adobe/skills/tree/main/skills/aem/cloud-service/skills/dispatcher --all
 
 # Install all AEM 6.5 LTS Dispatcher skills
 npx skills add https://github.com/adobe/skills/tree/main/skills/aem/6.5-lts/skills/dispatcher --all
 
 # Install dispatcher skills for a single agent (pick ONE mode only)
-# Cloud-service mode:
+# AEM as a Cloud Service mode:
 npx skills add https://github.com/adobe/skills/tree/main/skills/aem/cloud-service/skills/dispatcher --all -a cursor -y
-# AMS 6.5 mode:
+# AEM 6.5 LTS mode:
 npx skills add https://github.com/adobe/skills/tree/main/skills/aem/6.5-lts/skills/dispatcher --all -a cursor -y
 
 # Install specific skill(s)
@@ -69,7 +69,7 @@ gh upskill adobe/skills --all
 # Install only AEM Edge Delivery Services skills
 gh upskill adobe/skills --path skills/aem/edge-delivery-services --all
 
-# Install only AEM Cloud Dispatcher skills
+# Install only AEM as a Cloud Service Dispatcher skills
 gh upskill adobe/skills --path skills/aem/cloud-service/skills/dispatcher --all
 
 # Install only AEM 6.5 LTS Dispatcher skills

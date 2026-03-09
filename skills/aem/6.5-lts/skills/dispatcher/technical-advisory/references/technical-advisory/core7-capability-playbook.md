@@ -21,7 +21,7 @@ For complete prompt/tool/resource coverage mapping, use `capability-coverage-map
 | `generate` config snippets | Use `config-patterns.md` + produce full merged section, then `validate` + `lint` |
 | `simulate` invalidation/rewrite/request flow | Use `trace_request` and `inspect_cache` for runtime evidence; use static rule reasoning when runtime unavailable |
 | `rewrite_rules` helper | Use Apache-focused `validate({"config":"<vhost/rewrite block>","type":"httpd","config_type":"vhost"})` + redirect-chain traces via `trace_request` |
-| `troubleshoot` helper | Use scenario playbooks below with `monitor_metrics`, `tail_logs`, `trace_request`, `inspect_cache` |
+| `troubleshoot` helper | Use scenario playbooks below with `monitor_metrics`, `tail_logs`, `trace_request`, `inspect_cache`. To get the full log trace for one request: use **tail_logs** to obtain entries (some include **pid** and **tid**), then **trace_request(pid=..., tid=...)** — see config-authoring [mcp-tool-orchestration.md](../../../config-authoring/references/config-authoring/mcp-tool-orchestration.md) § Trace by pid:tid. |
 | `explain` directive helper | Use `concepts.md` + `public-docs-index.md` citation mapping |
 | `get_knowledge` helper | Use curated docs index and citation rules; cite source set explicitly |
 | MCP prompts/resources discovery | Use these deterministic playbooks and output contracts in skill references |

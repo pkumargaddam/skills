@@ -1,6 +1,6 @@
 ---
 name: incident-response
-description: Investigate and triage Dispatcher runtime incidents for AEM 6.5 / AMS workflows only, using host-path/log MCP evidence.
+description: Investigate and triage runtime incidents involving the Adobe Dispatcher Apache HTTP Server module and related HTTPD configuration in AEM 6.5 LTS environments only, using runtime MCP evidence.
 license: Apache-2.0
 compatibility: Requires Dispatcher MCP for AMS (`AEM_DEPLOYMENT_MODE=ams`) or AMS Dispatcher MCP SDK (pre-set to `ams`).
 allowed-tools:
@@ -17,12 +17,12 @@ metadata:
 
 # Dispatcher Runtime Incident Response (AMS)
 
-Investigate incidents with evidence-first workflow for AMS runtime.
+Investigate AMS runtime incidents involving the Adobe Dispatcher Apache HTTP Server module and related HTTPD configuration with an evidence-first workflow.
 
 ## Variant Scope
 
 - This skill is AMS-only.
-- Scope is fixed by this plugin path; do not ask the user to choose deployment variant.
+- Scope is fixed by this skill directory; do not ask the user to choose deployment variant.
 
 ## MCP Tool Contract
 
@@ -39,7 +39,7 @@ Use only these Dispatcher MCP tools:
 ## Workflow
 
 1. Quantify impact (`monitor_metrics`).
-2. Gather logs and traces (`tail_logs`, `trace_request`).
+2. Gather logs and traces (`tail_logs`, `trace_request`). To get the full log sequence for a specific request: use **tail_logs** to obtain entries (some include **pid** and **tid** from dispatcher debug lines), then call **trace_request(pid=..., tid=...)** to retrieve all log lines for that request. See [mcp-tool-orchestration.md](../config-authoring/references/config-authoring/mcp-tool-orchestration.md) § Trace by pid:tid.
 3. Apply AMS 6.5 guardrails to triage hypotheses (tier/farm ordering, variable usage, flush exposure, immutable boundaries).
 4. Inspect cache behavior (`inspect_cache`).
 5. Correlate with static checks (`validate`, `lint`, `sdk`).
@@ -49,8 +49,8 @@ Use only these Dispatcher MCP tools:
 
 Use shared references to select incident evidence depth:
 
-- [mode-specific-verification-matrix.md](../shared/references/technical-advisory/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/technical-advisory/test-case-catalog.md)
+- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
 
 ## Output Contract
 
@@ -76,8 +76,13 @@ Always return:
 - [incident-scenario-playbooks.md](./references/incident-response/incident-scenario-playbooks.md) – focused debug scenarios adapted from broader MCP prompt surfaces
 - [symptom-hypothesis-matrix.md](./references/incident-response/symptom-hypothesis-matrix.md) – troubleshooting hypothesis shortcuts for faster evidence-driven diagnosis
 - [incident-report-template.md](./references/incident-response/incident-report-template.md)
-- [ams-6-5-guardrails.md](../shared/references/technical-advisory/ams-6-5-guardrails.md)
-- [mode-specific-verification-matrix.md](../shared/references/technical-advisory/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/technical-advisory/test-case-catalog.md)
-- [change-risk-and-rollback-template.md](../shared/references/technical-advisory/change-risk-and-rollback-template.md)
-- [public-doc-citation-rules.md](../shared/references/technical-advisory/public-doc-citation-rules.md)
+- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) – normalize repo root and select the incident path quickly
+- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md) – map the failing behavior to the relevant dispatcher file families
+- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md) – exact MCP command chains for incident playbooks
+- [ams-6-5-guardrails.md](../shared/references/dispatcher-foundation/ams-6-5-guardrails.md)
+- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
+- [change-risk-and-rollback-template.md](../shared/references/dispatcher-foundation/change-risk-and-rollback-template.md)
+- [public-docs-index.md](../shared/references/dispatcher-foundation/public-docs-index.md)
+- [public-doc-citation-rules.md](../shared/references/dispatcher-foundation/public-doc-citation-rules.md)
+- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)

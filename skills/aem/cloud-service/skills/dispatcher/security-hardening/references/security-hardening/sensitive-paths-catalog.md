@@ -1,10 +1,10 @@
 # Sensitive Paths Catalog
 
-## Critical Paths (Should ALWAYS Be Denied)
+## Critical Paths (Deny In Stage/Prod Unless There Is An Explicit Cloud-Managed Exception)
 
 ### Admin Consoles
 ```
-/crx/de*                    # CRXDE Lite
+/crx/de*                    # CRXDE Lite (cloud-managed dev-only passthrough may exist)
 /crx/explorer*              # CRX Explorer
 /system/console*            # Felix/OSGi Console
 /etc/replication/agents*    # Replication agents
@@ -15,7 +15,7 @@
 /libs/granite/core/content/login*  # Login pages (should be via CDN/publish)
 /apps/*/install/*                  # Package installation
 /etc/packages/*                    # Package management
-/system/health*                    # Health checks (should be internal only)
+/system/health*                    # Health checks (should be limited to trusted callers)
 ```
 
 ### Query & Content APIs
@@ -45,8 +45,8 @@
 
 ### Client Libraries
 ```
-/etc/designs/*              # Client libraries (usually public)
-/etc/clientlibs/*           # Clientlibs (usually public)
+/etc.clientlibs/*           # Clientlibs (usually public)
+/etc/designs/*              # Legacy clientlib-style paths (compatibility only)
 /apps/*/clientlibs/*        # App-specific clientlibs
 ```
 **Note:** These are often public, but verify no sensitive code/keys embedded.
@@ -55,7 +55,7 @@
 ```
 /content/dam/*              # Digital assets (check permissions)
 ```
-**Note:** Public assets OK, but verify no PII/internal docs.
+**Note:** Public assets OK, but verify no PII or restricted business documents.
 
 ### Servlets
 ```
@@ -98,10 +98,9 @@ X-HTTP-Method-Override: GET
 
 ## AEMaaCS-Specific Paths
 
-### Cloud-Specific Admin
+### Environment-Sensitive Runtime Paths
 ```
-/libs/granite/cloud/*
-/mnt/overlay/granite/cloud/*
+/content/test-site/*        # Cloud-managed dev/stage direct publish access path
 ```
 
 ### GraphQL (if enabled)
@@ -115,11 +114,11 @@ X-HTTP-Method-Override: GET
 
 | Path | Expected Result | Severity if Accessible |
 |------|-----------------|------------------------|
-| `/crx/de/index.jsp` | 403 Forbidden | Critical |
+| `/crx/de/index.jsp` | 403 Forbidden in stage/prod; allowed only in explicitly intended development environments | Critical |
 | `/system/console` | 403 Forbidden | Critical |
 | `/bin/querybuilder.json` | 403 Forbidden (POST) | Critical |
 | `/content/site/en.infinity.json` | 403 Forbidden or depth-limited | High |
-| `/etc/designs/site/clientlib.js` | 200 OK (if public) | N/A |
+| `/etc.clientlibs/site/clientlib.js` | 200 OK (if public) | N/A |
 | `/content/dam/public/image.jpg` | 200 OK (if public) | N/A |
 | `/content/site/../../../etc/passwd` | 400/403 | High |
 | `/libs/granite/core/content/login.html` | 403 or redirect | Medium |
@@ -129,7 +128,7 @@ X-HTTP-Method-Override: GET
 ### Test Admin Path Blocking
 ```text
 trace_request({"url":"/crx/de/index.jsp","method":"GET"})
-# Expected: filter denied
+# Expected: denied outside approved dev usage
 
 trace_request({"url":"/system/console","method":"GET"})
 # Expected: filter denied
@@ -156,20 +155,20 @@ trace_request({"url":"/content/site/en.infinity.json","method":"GET"})
 # Expected: filter denied or depth-limited behavior
 
 inspect_cache({"url":"/content/site/en/my-account.html","show_metadata":true})
-# Expected: not cached (for auth/private content)
+# Expected: not cached (for authenticated or no-store content)
 ```
 
 ## Finding Templates
 
 ### Critical Finding: Admin Console Accessible
 ```
-**Finding:** Admin console accessible without authentication
+**Finding:** Admin console unexpectedly accessible
 **Path:** /crx/de/index.jsp
 **Severity:** Critical
 **Evidence:** trace_request shows 200 OK response
 **Impact:** Direct system access, full content compromise possible
-**Recommendation:** Add filter deny rule for /crx/* with highest priority. Place the deny after any allow that matches the path (last-applied filter wins).
-**Verification:** `trace_request({"url":"/crx/de/index.jsp","method":"GET"})` should return filter denied
+**Recommendation:** Deny `/crx/*` outside explicitly approved dev-only cloud usage, or document and validate the environment-gated passthrough.
+**Verification:** `trace_request({"url":"/crx/de/index.jsp","method":"GET"})` should match the intended environment behavior
 ```
 
 ### High Finding: Query Builder Exposed

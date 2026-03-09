@@ -45,6 +45,70 @@ Guidance:
 - **Flush** (explicit): Cache files are deleted (or a flush request is sent). Use for bulk or targeted flush from AEM.
 - Source: [Invalidating Dispatcher cache from AEM](https://experienceleague.adobe.com/en/docs/experience-manager-dispatcher/using/configuring/dispatcher-configuration#invalidating-dispatcher-cache-from-aem).
 
+## Cache – Freshness And Failure Controls
+
+- **`/serveStaleOnError`** allows stale cache delivery when the backend is unavailable; it improves resilience but can hide origin instability if overused.
+- **`/gracePeriod`** defines how long auto-invalidated stale resources may still be served during activation bursts.
+- **`/enableTTL`** makes Dispatcher honor backend `Cache-Control`/`Expires` for cached resource expiry.
+- **`/allowAuthorized "0"`** is the safe default for public publish traffic; do not enable authorized caching without a clear permission model and verification plan.
+
+For cloud guidance, treat the current managed sample-farm values (`serveStaleOnError=1`, `gracePeriod=2`, `enableTTL=1`, `allowAuthorized=0`) as the baseline and justify any deviation explicitly.
+
+## HTTPD / Dispatcher Integration Defaults
+
+- **`DispatcherUseProcessedURL On`** means rewrite processing affects what Dispatcher evaluates and forwards.
+- **`DispatcherPassError 0`** keeps backend error handling behavior at the Dispatcher/AEM boundary unless deliberately changed.
+- **`DispatcherUseForwardedHost`** controls whether `X-Forwarded-Host` influences host handling; treat host-forwarding behavior as a cloud trust-boundary setting.
+- **`DispatcherRestrictUncacheableContent On`** strips cache headers added by `mod_expires` from content that should stay uncacheable.
+
+When reviewing regressions in routing, redirects, or cache semantics, verify whether one of these integration settings explains the behavior before editing filters or cache rules.
+
+## Managed Default Includes Are Product Behavior, Not Noise
+
+In AEMaaCS, the wrapper files (`rewrite.rules`, `filters.any`, `rules.any`, `clientheaders.any`, `virtualhosts.any`) extend managed defaults. Those defaults are not just examples; they encode supported cloud behavior.
+
+Examples from the managed cloud baseline:
+- `default_clientheaders.any` forwards auth/session/tracing headers needed by common AEM features
+- `default_filters.any` allows supported endpoints for CSRF, GraphQL, persisted queries, Forms, and Screens
+- `default_rules.any` denies caching on specific unsafe endpoints such as CSRF token responses
+- `default_rewrite.rules` blocks common spoof/abuse patterns and rewrites persisted GraphQL requests for cache compatibility
+
+Advice implication:
+- do not remove or rewrite these includes casually
+- when customizing, add the minimum delta around them and verify the supported feature path still behaves correctly
+
+## Header Forwarding And Upstream Contract
+
+`/clientheaders` controls which request headers reach AEM. Removing a header can break authentication, tracing, host handling, or feature behavior without producing obvious syntax failures.
+
+High-sensitivity forwarded headers in the cloud baseline include:
+- `Authorization`
+- `Cookie`
+- `Host`
+- `X-Forwarded-Proto`
+- `x-request-id`
+
+When a feature fails only after a clientheaders change, audit the header contract before changing filters or rewrites.
+
+## Persisted GraphQL Cache Rewrite
+
+The managed default rewrite layer rewrites `^/graphql/execute.json` requests with a `;.json` suffix using `[PT]`. This is there so Dispatcher can cache persisted-query responses with a usable extension-backed cache file name.
+
+Advice implication:
+- if persisted-query caching or routing changes, verify this rewrite path still works
+- treat persisted GraphQL behavior as the combination of filter rules, rewrite rules, cache settings, and CORS policy
+
+## Cloud Runtime Reserved And Environment-Sensitive Paths
+
+- `/systemready` and `/system/probes/*` are cloud-runtime endpoints, not normal customer routes.
+- `/crx/(de|server)/` is intentionally proxied only in `ENVIRONMENT_DEV`.
+- `/content/test-site/` is intentionally proxied in `ENVIRONMENT_DEV` and `ENVIRONMENT_STAGE`.
+- Commerce GraphQL, frontend-static, and Dynamic Media delivery paths have managed proxy/no-rewrite behavior in the base cloud vhost.
+
+Advice implication:
+- do not recommend blanket denies or redirects on these paths without considering environment and cloud-managed behavior
+- distinguish customer-exposed routes from cloud-managed baseline routes
+
 ## Security Posture
 
 - Prefer deny-by-default: broad deny first, then explicit allows. Targeted denies for sensitive paths must appear **after** any matching allow (last match wins).

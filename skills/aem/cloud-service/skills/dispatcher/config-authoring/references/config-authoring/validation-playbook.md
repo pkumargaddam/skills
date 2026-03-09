@@ -12,6 +12,20 @@ cd dispatcher && ./bin/validate.sh src
 
 If unavailable, run the equivalent project command and record it.
 
+When an equivalent local validator binary or source build is available, run a corroborating pass against a representative dispatcher config root:
+
+```bash
+validator full /path/to/dispatcher/src
+validator httpd /path/to/dispatcher/src
+validator dispatcher /path/to/dispatcher/src
+```
+
+Expected baseline in a valid sample config:
+
+- `full` returns success with a warning about `/ignoreUrlParams` strategy
+- `httpd` returns success
+- `dispatcher` returns success with the same `/ignoreUrlParams` warning
+
 ## 2) MCP Static Checks
 
 Run in order:
@@ -62,7 +76,21 @@ For each test URL, capture:
 - expected final decision (allow/deny/cacheable/non-cacheable)
 - evidence source (`trace_request`, `inspect_cache`, or static rule analysis when runtime unavailable)
 
-## 6) Reporting Requirements
+## 6) Cloud Structure Assertions (Always Check)
+
+- `conf.d/enabled_vhosts/*.vhost` and `conf.dispatcher.d/enabled_farms/*.farm` are symlinks
+- at least one vhost provides `ServerAlias "*.adobeaemcloud.net"` and `ServerAlias "*.adobeaemcloud.com"`
+- no `ServerName "*"` directives remain
+- farm include paths remain validator-compatible (`clientheaders`, `virtualhosts`, `default_renders.any`, `filters.any`, `rules.any`, `default_invalidate.any`)
+- `/ignoreUrlParams` strategy is explicit (recommended to include marketing parameter handling)
+- reserved cloud probe paths (`/system/probes/live`, `/system/probes/start`, `/system/probes/ready`, `/system/probes/health`, `/systemready`) are not intercepted by custom rewrites, redirects, or filters
+- core cloud vhost defaults remain intact or intentionally replaced with evidence: `AllowEncodedSlashes NoDecode`, `ModMimeUsePathInfo On`, `DirectorySlash Off`, `DispatcherUseProcessedURL On`, `DispatcherPassError 0`, and the intended host-forwarding behavior
+- GraphQL persisted-query caching changes include explicit CORS verification if `CACHE_GRAPHQL_PERSISTED_QUERIES` is enabled
+- wrapper includes still retain managed defaults unless intentionally replaced (`default_clientheaders.any`, `default_filters.any`, `default_rules.any`, `default_rewrite.rules`, `default_virtualhosts.any`)
+- `clientheaders.any` changes preserve required auth/session/tracing headers unless feature evidence proves otherwise
+- rewrite changes preserve default spoof/abuse protections and persisted-query cache rewrite semantics unless the replacement is explicitly validated
+
+## 7) Reporting Requirements
 
 Always report:
 
@@ -71,5 +99,5 @@ Always report:
 - skipped checks and why
 - confirmed facts vs assumptions
 - next checks required for production confidence
-- selected test case IDs from [test-case-catalog.md](../technical-advisory/test-case-catalog.md)
+- selected test case IDs from [test-case-catalog.md](../../../shared/references/dispatcher-foundation/test-case-catalog.md)
 - rollback trigger and rollback action for behavior-changing edits

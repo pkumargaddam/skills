@@ -5,7 +5,7 @@
 - [ ] **Deny-by-default posture**: First filter rule is `{ /glob "*" /type "deny" }`
 - [ ] **Explicit allow rules**: All allows are specific (path + method + extension/selector)
 - [ ] **Admin paths blocked**: `/crx/*`, `/system/*`, `/bin/*` (except explicitly needed)
-- [ ] **Internal servlets blocked**: `/libs/*/servlets/*`, `/apps/*/servlets/*` (unless public)
+- [ ] **Non-public servlets blocked**: `/libs/*/servlets/*`, `/apps/*/servlets/*` (unless intentionally exposed)
 - [ ] **Method restrictions**: POST/PUT/DELETE denied on read-only content
 - [ ] **No glob wildcards in allows**: Avoid `/glob "*/admin"` patterns
 - [ ] **Selector/extension controls**: Prevent bypasses like `.json;.css`
@@ -48,10 +48,10 @@
 
 ## Information Disclosure Prevention
 
-- [ ] **Error pages sanitized**: No stack traces or internal paths in errors
+- [ ] **Error pages sanitized**: No stack traces or server file paths in errors
 - [ ] **Directory browsing disabled**: `Options -Indexes`
 - [ ] **Version info hidden**: Apache/dispatcher versions not disclosed
-- [ ] **Internal paths not exposed**: No file system paths in responses
+- [ ] **Server file paths not exposed**: No file system paths in responses
 - [ ] **Sensitive data not logged**: No passwords/tokens in access logs
 
 ## Logging & Monitoring

@@ -1,6 +1,6 @@
 {
   "name": "aem-6-5-lts-dispatcher",
-  "description": "Mode-specific AEM Dispatcher skills for AEM 6.5 LTS and AMS workflows. Includes config authoring, advisory, incident response, performance tuning, and security hardening with Dispatcher MCP evidence.",
+  "description": "Single entry point for AEM 6.5 LTS Dispatcher work across the Adobe Dispatcher Apache HTTP Server module and its HTTPD/dispatcher configuration. Includes config authoring, advisory, incident response, performance tuning, security hardening, and 6.5-specific guardrails with Dispatcher MCP evidence.",
   "version": "1.0.0",
   "author": {
     "name": "Adobe"

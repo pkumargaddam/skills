@@ -84,5 +84,5 @@ Always report:
 - skipped checks and why
 - confirmed facts vs assumptions
 - next checks required for production confidence
-- selected test case IDs from [test-case-catalog.md](../technical-advisory/test-case-catalog.md)
+- selected test case IDs from [test-case-catalog.md](../../../shared/references/dispatcher-foundation/test-case-catalog.md)
 - rollback trigger and rollback action for behavior-changing edits

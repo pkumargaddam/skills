@@ -35,7 +35,7 @@
 
 1. `trace_request` canonical URL and looping URL.
 2. Compare vhost/rewrite blocks with `validate({"config":"<vhost/rewrite block>","type":"httpd","config_type":"vhost"})`.
-3. Verify final destination is stable and single-hop where expected.
+3. Verify final destination is stable and single-hop where expected, and that `/systemready` and `/system/probes/*` are still untouched.
 4. Record exact rollback rule for the offending redirect block.
 
 ## Playbook 6: SDK Validation Failure During Incident
@@ -58,3 +58,23 @@
 2. Group pattern deltas in `monitor_metrics`.
 3. Select one representative URL per anomaly class and run `trace_request`.
 4. Build symptom->hypothesis table with confidence and disconfirming checks.
+
+## Playbook 9: Validator Failure Signature Triage
+
+1. Re-run `sdk({"action":"check-files","config_path":"<dispatcher src path>"})` and `validate` to capture current failure text.
+2. Map failure signatures quickly:
+   - `unable to find any farm` -> check `conf.dispatcher.d/enabled_farms/*.farm` existence and symlinks
+   - `no file found for matching pattern: conf.d/enabled_vhosts/*.vhost` -> check enabled vhost symlink topology
+   - `included file (...) does not match any known file` -> move include back to validator-supported locations
+   - `ServerName directive is set to '*'` -> set explicit server name and rely on `ServerAlias` for host coverage
+   - `Statfileslevel ... below 0` -> restore non-negative `statfileslevel` and re-verify invalidation intent
+3. Check for warnings that should still be resolved before release (`MissingRequiredServerAlias`, `ignoreUrlParams` warning).
+4. Apply smallest patch that removes the error signature and re-run static checks before runtime validation.
+
+## Playbook 10: Probe Or Readiness Endpoint Regression
+
+1. Check whether the failing path is `/systemready` or one of `/system/probes/live`, `/system/probes/start`, `/system/probes/ready`, `/system/probes/health`.
+2. Inspect recent vhost/rewrite changes first; these endpoints are cloud-reserved and should not be redirected or filtered by customer rules.
+3. Use `trace_request` on the failing probe path and one normal content URL to isolate whether the regression is path-specific or global.
+4. If managed rewrite maps are in use, account for readiness gating when `/tmp/rewrites/ready` is not present yet.
+5. Restore the smallest prior-safe rewrite or vhost block and re-run static validation before declaring containment.

@@ -32,9 +32,11 @@
 ## Playbook 5: Query-Parameter Cache Fragmentation Cleanup
 
 1. Sample high-traffic URLs with marketing/query params from logs.
-2. Review and tighten `/ignoreUrlParams` allow-list policy.
-3. Validate/lint updated cache config.
-4. Verify equivalent content resolves to consistent cache behavior.
+2. Review and tighten `/ignoreUrlParams` allow-list policy (include marketing parameter strategy where applicable).
+3. Validate/lint updated cache config and run `sdk({"action":"check-files","config_path":"<dispatcher src path>"})`.
+4. Reuse or mirror the existing `marketing_query_parameters.any` pattern for common tracking params when business-safe.
+5. Ensure the common cloud validator warning about missing `/ignoreUrlParams` strategy is addressed.
+6. Verify equivalent content resolves to consistent cache behavior.
 
 ## Playbook 6: Tail-Latency Hotspot Mitigation
 
@@ -42,3 +44,11 @@
 2. `trace_request` top offenders and identify filter/rewrite/backend causes.
 3. Apply minimal changes with highest expected impact.
 4. Re-measure p95/p99 and keep rollback thresholds explicit.
+
+## Playbook 7: Persisted Query Cache Enablement
+
+1. Confirm persisted-query traffic is a real latency or backend-load hotspot.
+2. Check whether `CACHE_GRAPHQL_PERSISTED_QUERIES` is currently disabled by default and document the current bypass behavior.
+3. If enabling cache, align CORS and preflight handling first so cached GraphQL responses do not break browser clients.
+4. Validate httpd/vhost changes and verify one persisted-query path plus one non-cacheable GraphQL control path.
+5. Compare cache behavior and latency after the change, with a rollback path that reverts only the persisted-query toggle and related headers.

@@ -38,17 +38,17 @@ Guide proactive performance monitoring configuration (not incident-driven alerti
 
 ```text
 # Docker-based host metrics collection (outside MCP)
-docker stats dispatcher_container --no-stream
+docker stats <dispatcher-container-name> --no-stream
 
 # Dispatcher-specific MCP metrics
 monitor_metrics({"window_minutes":60,"breakdown_by":"status_code"})
 tail_logs({"lines":200})
 ```
 
-### Recommended CloudWatch/Prometheus Metrics
+### Example External Metrics Pipeline
 
 ```yaml
-# Example Prometheus scrape config
+# Example scrape config for an external metrics system
 scrape_configs:
   - job_name: 'aem-dispatcher'
     static_configs:
@@ -109,7 +109,7 @@ groups:
    - Worker/thread saturation (gauge)
    - Traffic forecast vs capacity (dual-axis line chart)
 
-### Grafana Dashboard Example
+### Example Dashboard Definition
 
 ```json
 {
@@ -196,17 +196,17 @@ Week of [Date Range]
 ## Monitoring Setup Checklist
 
 ### Initial Setup
-- [ ] Identify monitoring platform (CloudWatch, Prometheus, Nagios, Splunk, ELK)
+- [ ] Identify a monitoring platform or metrics sink that fits the environment
 - [ ] Configure metric collection (MCP tools, log parsing, or custom exporters)
 - [ ] Define KPI targets and alert thresholds
 - [ ] Create performance dashboard with essential widgets
-- [ ] Set up alert routing (email, Slack, PagerDuty)
+- [ ] Set up alert routing (for example: email, chat, or incident-management tooling)
 - [ ] Document escalation procedures
 
 ### Cloud Mode Specific
 - [ ] Configure Docker stats collection
 - [ ] Set up container resource limits
-- [ ] Integrate with cloud-native monitoring (CloudWatch, Azure Monitor)
+- [ ] Integrate with your cloud-native monitoring stack
 - [ ] Configure CDN performance metrics (if applicable)
 
 

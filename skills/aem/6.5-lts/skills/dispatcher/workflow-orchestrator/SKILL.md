@@ -1,6 +1,6 @@
 ---
 name: workflow-orchestrator
-description: Orchestrate complete Dispatcher lifecycle work for AEM 6.5 LTS/AMS flavor, from design and implementation through validation, release readiness, and incident troubleshooting.
+description: Orchestrate complete lifecycle work for the Adobe Dispatcher Apache HTTP Server module and related HTTPD configuration in AEM 6.5 LTS, from design and implementation through validation, release readiness, and incident troubleshooting.
 license: Apache-2.0
 compatibility: Requires Dispatcher MCP for AMS (`AEM_DEPLOYMENT_MODE=ams`) or AMS Dispatcher MCP SDK (pre-set to `ams`).
 allowed-tools:
@@ -36,6 +36,15 @@ Use this skill when users need end-to-end Dispatcher support instead of a single
 4. Switch to `incident-response` for live failures or regressions.
 5. Return a single consolidated output: changes, evidence, risk, rollback, and follow-ups.
 
+## Operational Packaging
+
+Use these shared references to keep broad requests deterministic:
+
+1. Start with [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) when the user is new, the repo root is ambiguous, or the request spans multiple concerns.
+2. Normalize the repo to a dispatcher `src` root with [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md).
+3. Convert the chosen specialist playbook into exact MCP commands with [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md).
+4. Use the specialist skill references only after the path above is fixed.
+
 ## Entry Criteria
 
 Use when user intent is any of:
@@ -60,3 +69,11 @@ Always return:
 - [security-hardening](../security-hardening/SKILL.md)
 - [performance-tuning](../performance-tuning/SKILL.md)
 - [incident-response](../incident-response/SKILL.md)
+
+## References
+
+- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md)
+- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md)
+- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md)
+- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)
+- [cloud-vs-ams-dispatcher-guide.md](../../../../shared/references/dispatcher/cloud-vs-ams-dispatcher-guide.md)

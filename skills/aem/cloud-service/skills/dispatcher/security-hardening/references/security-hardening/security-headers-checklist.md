@@ -40,10 +40,14 @@ Purpose: enforce HTTPS.
 
 Recommended:
 ```apache
-<VirtualHost *:443>
+<VirtualHost *:80>
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </VirtualHost>
 ```
+
+Cloud note:
+- in AEMaaCS, keep examples aligned to the managed Apache `*:80` configuration shape behind upstream TLS termination
+- do not model cloud dispatcher changes as custom `*:443` virtual hosts
 
 MCP checks:
 - `validate({"config":"<https vhost config>","type":"httpd"})`
@@ -105,10 +109,10 @@ MCP checks:
 
 ## Cache-Sensitive Header Controls
 
-### Auth/private content
+### Authenticated or no-store content
 ```apache
 <LocationMatch "^/content/site/.*/my-account\.html$">
-    Header always set Cache-Control "private, no-cache, no-store, must-revalidate"
+    Header always set Cache-Control "no-cache, no-store, must-revalidate"
     Header always set Pragma "no-cache"
     Header always set Expires "0"
 </LocationMatch>
@@ -116,13 +120,14 @@ MCP checks:
 
 MCP checks:
 - `inspect_cache({"url":"/content/site/en/my-account.html","show_metadata":true})`
-- Confirm private pages are not cached (or have expected `.headers` metadata behavior).
+- Confirm authenticated or no-store pages are not cached (or have expected `.headers` metadata behavior).
 
 ## Mode Notes
 
 ### Cloud (`AEM_DEPLOYMENT_MODE=cloud`)
 - Runtime log/cache checks can run against local dispatcher container.
-- `DISPATCHER_CONTAINER_NAME` may be set when container discovery fails.
+- If container discovery fails, use the actual container name explicitly in the runtime check.
+- Header examples should stay compatible with the managed `conf.d/dispatcher_vhost.conf` shape instead of introducing standalone TLS-terminating vhosts.
 
 ## Testing Matrix
 
@@ -131,7 +136,7 @@ MCP checks:
 | X-Frame-Options configured | `validate` + `lint` on vhost/header config | directive present | Medium |
 | HSTS configured on HTTPS vhost | `validate` + `lint` | directive present | High |
 | Server disclosure minimized | `validate` + `lint` | `ServerTokens Prod` / header unset or generic | Low-Medium |
-| Sensitive content cache-protected | `inspect_cache` + `trace_request` | private/auth content not cache-exposed | High |
+| Sensitive content cache-protected | `inspect_cache` + `trace_request` | authenticated or no-store content not cache-exposed | High |
 
 ## Automation Pattern
 

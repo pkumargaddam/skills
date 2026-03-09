@@ -29,14 +29,14 @@ Record only executed evidence.
 |------|---------------|--------|-------|
 | `lint` | mode=directory, target=/path/to/dispatcher/src | [pass/fail] | [key findings] |
 | `sdk` | action=check-files, config_path=/path/to/dispatcher/src | [pass/fail] | [immutable/include result] |
-| `trace_request` | url=/crx/de/index.jsp, method=GET | [denied/allowed] | [filter stage evidence] |
+| `trace_request` | url=/crx/de/index.jsp, method=GET | [denied/allowed] | [filter stage evidence, plus environment assumption] |
 | `inspect_cache` | url=/content/site/en/my-account.html | [exists/miss] | [sensitive cache posture] |
 | `tail_logs` | lines=200 | [summary] | [security-relevant entries] |
 | `monitor_metrics` | window_minutes=60, breakdown_by=status_code | [summary] | [error/deny trend] |
 
 ## Detailed Findings
 
-### [C-001] Admin Console Accessible
+### [C-001] Unexpected Admin Console Exposure
 
 - Severity: `Critical`
 - Category: `OWASP A01 Broken Access Control`
@@ -48,7 +48,7 @@ Description:
 Evidence:
 ```text
 trace_request({"url":"/crx/de/index.jsp","method":"GET"})
-# stage.filter.status = denied (expected) OR passed (finding)
+# denied is expected outside approved dev-only usage; otherwise record the environment assumption explicitly
 ```
 
 Impact:
@@ -64,6 +64,8 @@ Remediation:
     # explicit allows follow
 }
 ```
+
+If dev-only cloud passthrough is intentional, document the environment guard instead of treating the mere existence of the path as a finding.
 
 Verification Steps:
 ```text
@@ -122,7 +124,7 @@ Verification:
 
 ### Cloud
 - runtime evidence may rely on local dispatcher container access
-- set `DISPATCHER_CONTAINER_NAME` if auto-discovery fails
+- if auto-discovery fails, record the container name used for manual checks
 
 ## Remediation Plan
 

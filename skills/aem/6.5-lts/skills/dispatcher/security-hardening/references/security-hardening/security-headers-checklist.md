@@ -105,10 +105,10 @@ MCP checks:
 
 ## Cache-Sensitive Header Controls
 
-### Auth/private content
+### Authenticated or no-store content
 ```apache
 <LocationMatch "^/content/site/.*/my-account\.html$">
-    Header always set Cache-Control "private, no-cache, no-store, must-revalidate"
+    Header always set Cache-Control "no-cache, no-store, must-revalidate"
     Header always set Pragma "no-cache"
     Header always set Expires "0"
 </LocationMatch>
@@ -116,7 +116,7 @@ MCP checks:
 
 MCP checks:
 - `inspect_cache({"url":"/content/site/en/my-account.html","show_metadata":true})`
-- Confirm private pages are not cached (or have expected `.headers` metadata behavior).
+- Confirm authenticated or no-store pages are not cached (or have expected `.headers` metadata behavior).
 
 ## Mode Notes
 
@@ -131,7 +131,7 @@ MCP checks:
 | X-Frame-Options configured | `validate` + `lint` on vhost/header config | directive present | Medium |
 | HSTS configured on HTTPS vhost | `validate` + `lint` | directive present | High |
 | Server disclosure minimized | `validate` + `lint` | `ServerTokens Prod` / header unset or generic | Low-Medium |
-| Sensitive content cache-protected | `inspect_cache` + `trace_request` | private/auth content not cache-exposed | High |
+| Sensitive content cache-protected | `inspect_cache` + `trace_request` | authenticated or no-store content not cache-exposed | High |
 
 ## Automation Pattern
 

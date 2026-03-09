@@ -17,7 +17,7 @@
 ## Playbook 3: Pre-Release Security Gate
 
 1. Run static chain: `validate({"config":"<changed dispatcher.any content>","type":"dispatcher"})` -> optional `validate({"config":"<changed vhost/rewrite content>","type":"httpd","config_type":"vhost"})` when Apache files changed -> `lint({"mode":"directory","target":"<dispatcher src path>","strict_mode":true})` -> `sdk({"action":"check-files","config_path":"<dispatcher src path>"})` -> optional `sdk({"action":"diff-baseline","config_path":"<dispatcher src path>"})`.
-2. Run runtime checks for key sensitive paths and header evidence.
+2. Run runtime checks for key sensitive paths, reserved probe paths, and header evidence.
 3. Produce risk-rated findings and remediation priority.
 
 ## Playbook 4: Method and Selector Abuse Defense
@@ -40,3 +40,10 @@
 2. Verify flush/invalidate routes are not publicly reachable.
 3. Trace representative requests to ensure deny outcome externally.
 4. Provide rollback-safe remediation sequence for exposure findings.
+
+## Playbook 7: Probe And Health Endpoint Safety Review
+
+1. Check `/systemready` and `/system/probes/*` against vhost, rewrite, and filter rules.
+2. Verify customer redirects, canonical-host logic, or auth rules do not intercept these endpoints.
+3. Confirm readiness and health paths stay reachable according to cloud defaults.
+4. Escalate any interception as a release-blocking finding because it can break platform health behavior.

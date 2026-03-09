@@ -24,16 +24,22 @@ Prompt intent coverage is explicit across the dispatcher skills.
 | `setup-permission-sensitive-caching` | `config-authoring` | `config-scenario-playbooks.md` (Playbook G) |
 | `setup-headless-api` | `config-authoring` | `config-scenario-playbooks.md` (Playbook B/H) |
 | `setup-multi-site` | `config-authoring` | `config-scenario-playbooks.md` (Playbook C) |
-| `setup-sdi-caching` | `config-authoring` | `config-scenario-playbooks.md` (Playbook I) |
+| `setup-sdi-caching` | `config-authoring` | `config-scenario-playbooks.md` (Playbook J) |
 | `write-filter-rules` | `config-authoring` | `config-patterns.md` + Playbook B |
 | `write-rewrite-rules` | `config-authoring` | `config-patterns.md` + Playbook F |
 | `configure-cache-strategy` | `config-authoring` | `config-scenario-playbooks.md` (Playbook D) |
 | `configure-flush-invalidation` | `config-authoring` | `config-scenario-playbooks.md` (Playbook D) |
 | `configure-vanity-urls` | `config-authoring` | `config-scenario-playbooks.md` (Playbook F) |
 | `configure-cors` | `config-authoring` | `config-scenario-playbooks.md` (Playbook H) |
+| `configure-graphql-persisted-query-caching` | `config-authoring` + `performance-tuning` | `config-scenario-playbooks.md` (Playbook I) + `performance-scenario-playbooks.md` (Playbook 7) |
+| `configure-clientheaders` | `config-authoring` + `technical-advisory` | `config-scenario-playbooks.md` (Playbook N) + cloud guardrails |
+| `configure-commerce-proxy-routes` | `config-authoring` + `technical-advisory` | cloud guardrails + vhost validation playbooks |
+| `review-managed-default-compatibility` | `config-authoring` + `technical-advisory` | `config-scenario-playbooks.md` (Playbook O) + concepts/guardrails |
+| `debug-probe-or-health-failure` | `incident-response` | `incident-scenario-playbooks.md` (Playbook 10) |
+| `review-dev-only-passthroughs` | `security-hardening` + `technical-advisory` | security baseline + concepts/guardrails |
 | `full-config-audit` | `security-hardening` + `performance-tuning` | security/performance scenario playbooks |
 | `test-url-flow` | `technical-advisory` or runtime/perf/security skills | `test-case-catalog.md` + `trace_request` evidence |
-| `validate-before-deploy` | `config-authoring` | `validation-playbook.md` + Playbook J |
+| `validate-before-deploy` | `config-authoring` | `validation-playbook.md` + Playbook K |
 | `debug-cache-miss` | `incident-response` | `incident-scenario-playbooks.md` (Playbook 2) |
 | `debug-502-errors` | `incident-response` | `incident-scenario-playbooks.md` (Playbook 1) |
 | `debug-redirect-loop` | `incident-response` | `incident-scenario-playbooks.md` (Playbook 5) |
@@ -49,7 +55,7 @@ Prompt intent coverage is explicit across the dispatcher skills.
 | `explain-dispatcher-flow` | `technical-advisory` | `request-router.md` + `concepts.md` |
 | `compare-configs` | `config-authoring` | `validation-playbook.md` + `sdk(diff-baseline)` guidance |
 | `fix-sdk-validation` | `incident-response` + `config-authoring` | `incident-scenario-playbooks.md` (Playbook 6) + validation playbook |
-| `setup-ci-pipeline` | `config-authoring` | `config-scenario-playbooks.md` (Playbook J) |
+| `setup-ci-pipeline` | `config-authoring` | `config-scenario-playbooks.md` (Playbook K) |
 
 ## Resource Coverage Mapping
 

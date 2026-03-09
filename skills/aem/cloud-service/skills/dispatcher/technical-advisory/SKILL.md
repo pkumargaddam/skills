@@ -1,6 +1,6 @@
 ---
 name: technical-advisory
-description: Provide Dispatcher/HTTPD advisory guidance for AEMaaCS cloud workflows only, with public-doc citations and cloud-specific MCP verification plans. Use for conceptual questions such as `statfileslevel`, filter rules, URL decomposition, cache invalidation behavior, rewrite behavior, and security headers.
+description: Provide advisory guidance for the Adobe Dispatcher Apache HTTP Server module and related HTTPD configuration in AEMaaCS cloud workflows only, with public-doc citations and cloud-specific MCP verification plans. Use for conceptual questions such as `statfileslevel`, filter rules, URL decomposition, cache invalidation behavior, rewrite behavior, and security headers.
 license: Apache-2.0
 compatibility: Requires Dispatcher MCP configured for cloud variant (`AEM_DEPLOYMENT_MODE=cloud`).
 allowed-tools:
@@ -17,12 +17,12 @@ metadata:
 
 # Dispatcher Technical Advisory (Cloud)
 
-Provide deterministic guidance for AEMaaCS dispatcher use cases.
+Provide deterministic guidance for AEMaaCS use cases involving the Adobe Dispatcher Apache HTTP Server module and related HTTPD configuration.
 
 ## Variant Scope
 
 - This skill is cloud-service-only.
-- Scope is fixed by this plugin path; do not ask the user to choose deployment variant.
+- Scope is fixed by this skill directory; do not ask the user to choose deployment variant.
 
 ## MCP Tool Contract
 
@@ -39,20 +39,22 @@ Use only these Dispatcher MCP tools when producing verification plans:
 ## Workflow
 
 1. Confirm scope and assumptions.
-2. Apply [cloud-service-aemaacs-guardrails.md](../shared/references/technical-advisory/cloud-service-aemaacs-guardrails.md) to lock immutable/include constraints and CDN-vs-Dispatcher boundaries.
-3. Use [capability-coverage-map.md](./references/technical-advisory/capability-coverage-map.md) to route prompt/tool/resource intents to the right dispatcher skill flow.
-4. Select a scenario path from [core7-capability-playbook.md](./references/technical-advisory/core7-capability-playbook.md) for development/debugging requests.
-5. For conceptual questions (e.g. statfileslevel, filter order, URL decomposition, cache invalidation), use [concepts.md](./references/technical-advisory/concepts.md) and cite official docs.
-6. Use curated public references for recommendations in this variant.
-7. Produce MCP verification steps for this variant when needed.
-8. Route execution-heavy changes to this variant's execution skills.
+2. If the repo layout or execution path is unclear, start with [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) and [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md).
+3. Apply [cloud-service-aemaacs-guardrails.md](../shared/references/dispatcher-foundation/cloud-service-aemaacs-guardrails.md) to lock immutable/include constraints, validator-enforced topology checks (symlinks/aliases/includes), reserved probe-path behavior, and CDN-vs-Dispatcher boundaries.
+4. Use [capability-coverage-map.md](./references/technical-advisory/capability-coverage-map.md) to route prompt/tool/resource intents to the right dispatcher skill flow.
+5. Select a scenario path from [core7-capability-playbook.md](./references/technical-advisory/core7-capability-playbook.md) for development/debugging requests.
+6. Convert the selected playbook to exact MCP commands with [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md).
+7. For conceptual questions (e.g. statfileslevel, filter order, URL decomposition, cache invalidation), use [concepts.md](./references/technical-advisory/concepts.md) and cite official docs.
+8. Use curated public references for recommendations in this variant.
+9. Produce MCP verification steps for this variant when needed.
+10. Route execution-heavy changes to this variant's execution skills.
 
 ## Verification Scope Selection
 
 Use shared references for deterministic coverage:
 
-- [mode-specific-verification-matrix.md](../shared/references/technical-advisory/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/technical-advisory/test-case-catalog.md)
+- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
 
 ## Output Contract
 
@@ -73,11 +75,16 @@ Use one of these output shapes:
 
 - [core7-capability-playbook.md](./references/technical-advisory/core7-capability-playbook.md) – high-value development/debugging playbooks for the current core-7 MCP contract
 - [capability-coverage-map.md](./references/technical-advisory/capability-coverage-map.md) – prompt/tool/resource coverage map to current dispatcher skill workflows
-- [cloud-service-aemaacs-guardrails.md](../shared/references/technical-advisory/cloud-service-aemaacs-guardrails.md) – cloud-service-only immutable/include/runtime boundary checks from AEMaaCS patterns
+- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) – single entry path for broad or first-time requests
+- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md) – normalize repos to the dispatcher `src` root and likely file families
+- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md) – deterministic linkage from playbooks to MCP commands and tests
+- [cloud-service-aemaacs-guardrails.md](../shared/references/dispatcher-foundation/cloud-service-aemaacs-guardrails.md) – cloud-service-only immutable/include/runtime boundary checks from AEMaaCS patterns
 - [concepts.md](./references/technical-advisory/concepts.md) – key concepts (filter last-match, URL decomposition, statfileslevel, invalidate vs flush) for explanations
-- [public-docs-index.md](../shared/references/technical-advisory/public-docs-index.md)
-- [public-doc-citation-rules.md](../shared/references/technical-advisory/public-doc-citation-rules.md)
-- [mode-specific-verification-matrix.md](../shared/references/technical-advisory/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/technical-advisory/test-case-catalog.md)
-- [change-risk-and-rollback-template.md](../shared/references/technical-advisory/change-risk-and-rollback-template.md)
+- [public-docs-index.md](../shared/references/dispatcher-foundation/public-docs-index.md)
+- [public-doc-citation-rules.md](../shared/references/dispatcher-foundation/public-doc-citation-rules.md)
+- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
+- [change-risk-and-rollback-template.md](../shared/references/dispatcher-foundation/change-risk-and-rollback-template.md)
+- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)
+- [cloud-vs-ams-dispatcher-guide.md](../../../../shared/references/dispatcher/cloud-vs-ams-dispatcher-guide.md)
 - [request-router.md](./references/technical-advisory/request-router.md)

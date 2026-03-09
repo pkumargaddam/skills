@@ -12,7 +12,7 @@
 **Audit Checks:**
 - [ ] Deny-by-default filter posture
 - [ ] Admin paths blocked (`/crx/*`, `/system/*`)
-- [ ] Internal servlets protected (`/bin/querybuilder*`)
+- [ ] Non-public servlets protected (`/bin/querybuilder*`)
 - [ ] Method restrictions enforced (POST/PUT/DELETE)
 - [ ] No glob wildcard allows
 
@@ -228,18 +228,18 @@ monitor_metrics({"window_minutes":60,"breakdown_by":"status_code"})
 ### A10:2021 - Server-Side Request Forgery (SSRF)
 
 **Dispatcher Controls:**
-- Filter rules blocking internal paths
+- Filter rules blocking metadata and service endpoints
 - Backend origin validation
 
 **Audit Checks:**
-- [ ] Internal service paths blocked
+- [ ] Metadata and service endpoints blocked
 - [ ] No open proxy behavior
-- [ ] Localhost requests denied
-- [ ] Internal IP ranges blocked (if applicable)
+- [ ] Loopback requests denied
+- [ ] Link-local or metadata IP ranges blocked (if applicable)
 
 **MCP Validation:**
 ```text
-trace_request({"url":"/content/site/proxy?url=http://localhost","method":"GET"})           # Should deny
+trace_request({"url":"/content/site/proxy?url=http://127.0.0.1","method":"GET"})           # Should deny
 trace_request({"url":"/content/site/proxy?url=http://169.254.169.254","method":"GET"})     # Should deny
 ```
 

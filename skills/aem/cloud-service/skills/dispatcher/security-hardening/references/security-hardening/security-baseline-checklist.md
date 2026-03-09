@@ -4,8 +4,8 @@
 
 - [ ] **Deny-by-default posture**: First filter rule is `{ /glob "*" /type "deny" }`
 - [ ] **Explicit allow rules**: All allows are specific (path + method + extension/selector)
-- [ ] **Admin paths blocked**: `/crx/*`, `/system/*`, `/bin/*` (except explicitly needed)
-- [ ] **Internal servlets blocked**: `/libs/*/servlets/*`, `/apps/*/servlets/*` (unless public)
+- [ ] **Admin paths blocked or explicitly environment-scoped**: `/crx/*`, `/system/*`, `/bin/*` are denied unless a cloud-managed dev/stage exception is intentionally retained
+- [ ] **Non-public servlets blocked**: `/libs/*/servlets/*`, `/apps/*/servlets/*` (unless intentionally exposed)
 - [ ] **Method restrictions**: POST/PUT/DELETE denied on read-only content
 - [ ] **No glob wildcards in allows**: Avoid `/glob "*/admin"` patterns
 - [ ] **Selector/extension controls**: Prevent bypasses like `.json;.css`
@@ -41,6 +41,10 @@
 ## Access Control
 
 - [ ] **Virtual host restrictions**: Only expected hosts accepted
+- [ ] **Required cloud aliases present**: At least one enabled vhost provides `*.adobeaemcloud.net` and `*.adobeaemcloud.com`
+- [ ] **No wildcard ServerName**: `ServerName "*"` is not used
+- [ ] **Catch-all host safety preserved**: unmatched hosts do not fall through to customer vhosts
+- [ ] **Environment-sensitive passthroughs justified**: `/crx/(de|server)/` only in intended dev usage; `/content/test-site/` only when dev/stage direct publish access is intentional
 - [ ] **IP allowlisting (if required)**: Restricted admin access from trusted IPs
 - [ ] **No directory listing**: `Options -Indexes`
 - [ ] **No .ht file access**: `.htaccess` and `.htpasswd` blocked
@@ -48,10 +52,10 @@
 
 ## Information Disclosure Prevention
 
-- [ ] **Error pages sanitized**: No stack traces or internal paths in errors
+- [ ] **Error pages sanitized**: No stack traces or server file paths in errors
 - [ ] **Directory browsing disabled**: `Options -Indexes`
 - [ ] **Version info hidden**: Apache/dispatcher versions not disclosed
-- [ ] **Internal paths not exposed**: No file system paths in responses
+- [ ] **Server file paths not exposed**: No file system paths in responses
 - [ ] **Sensitive data not logged**: No passwords/tokens in access logs
 
 ## Logging & Monitoring
@@ -67,11 +71,14 @@
 - [ ] **Immutable files unmodified**: No changes to cloud immutable files
 - [ ] **Include structure preserved**: Default includes not removed
 - [ ] **Baseline drift monitored**: SDK diff-baseline checks pass
+- [ ] **Reserved probe paths preserved**: `/systemready` and `/system/probes/*` are not redirected, filtered, or denied by customer rules
+- [ ] **Cloud safety defaults preserved**: `AllowEncodedSlashes NoDecode`, `DirectorySlash Off`, `DispatcherUseProcessedURL On`, `DispatcherPassError 0`
 
 ## General Configuration
 
 - [ ] **Least privilege principle**: Only necessary modules loaded
 - [ ] **No debug mode**: Production configs have debug disabled
+- [ ] **Cloud log levels stay within platform cap**: Do not rely on `trace*`; cloud postupdate patches trace to debug
 - [ ] **Secure defaults**: No insecure fallback configs
 - [ ] **Configuration comments minimal**: No sensitive info in comments
 - [ ] **File permissions correct**: Configs not world-writable

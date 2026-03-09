@@ -7,10 +7,10 @@ Use this map to sequence current Dispatcher MCP tools.
 - `validate`: syntax/structure validation for dispatcher/httpd/cloud/runtime config checks.
 - `lint`: security/performance/best-practice analysis.
 - `sdk`: file integrity, baseline drift, and SDK-backed validation/runtime checks.
-- `trace_request`: request-stage evidence (filter, cache, log context).
+- `trace_request`: request-stage evidence (filter, cache, log context). Can be driven by **URL** or by **pid:tid** from `tail_logs` (see “Trace by pid:tid” below).
 - `inspect_cache`: cache object/path evidence.
 - `monitor_metrics`: aggregated runtime signals.
-- `tail_logs`: direct log evidence.
+- `tail_logs`: direct log evidence. Entries from dispatcher debug/error logs may include **pid** and **tid** for use with `trace_request(pid=..., tid=...)`.
 
 ## Recommended Sequences
 
@@ -25,12 +25,22 @@ Use this map to sequence current Dispatcher MCP tools.
 
 ### Incident / Regression Analysis
 
-1. `trace_request`
+1. `trace_request` (by URL and/or by pid:tid)
 2. `tail_logs`
 3. `inspect_cache`
 4. `monitor_metrics`
 5. `validate` + `lint`
 6. `sdk` checks if file integrity is suspect
+
+### Trace by pid:tid (tail_logs → trace_request)
+
+When you need the full log trace for a specific request:
+
+1. Call **`tail_logs`** (e.g. `lines=50` or with `filter_url`). Some entries will include **`pid`** and **`tid`** when the log line contains `[pid X:tid Y]` (dispatcher debug/error logs).
+2. From the returned **entries**, take **pid** and **tid** from any entry that has them.
+3. Call **`trace_request(pid=..., tid=...)`** to get all log lines for that process/thread in the **log_analysis** stage (filter and cache stages are skipped when no URL is provided).
+
+Use this when tracing a request that appears in `tail_logs` and you want the full dispatcher debug sequence for that request. Requires MCP server built from aem-dispatcher-mcp that supports `trace_request` with optional **pid** and **tid**.
 
 ### Release Readiness Review
 
@@ -83,3 +93,14 @@ Expected gain:
 
 Expected gain:
 - validates both static correctness and runtime behavior evidence
+
+### Clientheaders / Host Contract Edits
+
+1. `validate({"config":"<farm or clientheaders content>","type":"dispatcher"})`
+2. `lint({"mode":"config","target":"<farm or clientheaders content>","analysis_depth":"standard"})`
+3. `sdk({"action":"check-files","config_path":"<dispatcher src path>"})`
+4. `trace_request({"url":"<feature url affected by forwarded headers>"})`
+
+Expected gain:
+- catches wrapper drift around `default_clientheaders.any`
+- forces feature-level verification for auth/host/protocol regressions

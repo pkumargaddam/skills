@@ -11,14 +11,14 @@
 
 **Audit Checks:**
 - [ ] Deny-by-default filter posture
-- [ ] Admin paths blocked (`/crx/*`, `/system/*`)
-- [ ] Internal servlets protected (`/bin/querybuilder*`)
+- [ ] Admin paths blocked outside approved environment-scoped exceptions (`/crx/*`, `/system/*`)
+- [ ] Non-public servlets protected (`/bin/querybuilder*`)
 - [ ] Method restrictions enforced (POST/PUT/DELETE)
 - [ ] No glob wildcard allows
 
 **MCP Validation:**
 ```text
-trace_request({"url":"/crx/de/index.jsp","method":"GET"})          # Should deny
+trace_request({"url":"/crx/de/index.jsp","method":"GET"})          # Should deny outside approved dev usage
 trace_request({"url":"/content/site/en.html","method":"POST"})     # Should deny (read-only)
 trace_request({"url":"/bin/querybuilder.json","method":"GET"})     # Should deny
 ```
@@ -162,7 +162,7 @@ inspect_cache({"url":"/content/site/en.html","show_metadata":true})
 - Protected admin paths
 
 **Audit Checks:**
-- [ ] Admin paths require backend auth
+- [ ] Admin paths require denial or explicitly approved environment-gated passthrough
 - [ ] No auth bypass via dispatcher filters
 - [ ] Secure cookie attributes forwarded
 - [ ] No credentials in logs
@@ -228,18 +228,18 @@ monitor_metrics({"window_minutes":60,"breakdown_by":"status_code"})
 ### A10:2021 - Server-Side Request Forgery (SSRF)
 
 **Dispatcher Controls:**
-- Filter rules blocking internal paths
+- Filter rules blocking metadata and service endpoints
 - Backend origin validation
 
 **Audit Checks:**
-- [ ] Internal service paths blocked
+- [ ] Metadata and service endpoints blocked
 - [ ] No open proxy behavior
-- [ ] Localhost requests denied
-- [ ] Internal IP ranges blocked (if applicable)
+- [ ] Loopback requests denied
+- [ ] Link-local or metadata IP ranges blocked (if applicable)
 
 **MCP Validation:**
 ```text
-trace_request({"url":"/content/site/proxy?url=http://localhost","method":"GET"})           # Should deny
+trace_request({"url":"/content/site/proxy?url=http://127.0.0.1","method":"GET"})           # Should deny
 trace_request({"url":"/content/site/proxy?url=http://169.254.169.254","method":"GET"})     # Should deny
 ```
 
@@ -286,7 +286,7 @@ trace_request({"url":"/content/site/proxy?url=http://169.254.169.254","method":"
 **Status:** Failed
 
 **Finding:**
-Admin console accessible without authentication via `/crx/de/index.jsp`.
+Admin console unexpectedly accessible via `/crx/de/index.jsp` outside intended environment-scoped usage.
 
 **Evidence:**
 ```text
@@ -300,7 +300,7 @@ status: passed/allowed
 - Potential system compromise
 
 **Recommendation:**
-Add deny rule for admin paths with highest priority. Place the deny after any allow that matches the path (last-applied filter wins).
+Add deny rule for admin paths with highest priority, or document the approved dev-only environment gate if that is the intended cloud behavior. Place the deny after any allow that matches the path (last-applied filter wins).
 ```apache
 /filter {
     /0000 { /glob "*" /type "deny" }
@@ -313,7 +313,7 @@ Add deny rule for admin paths with highest priority. Place the deny after any al
 **Verification:**
 ```text
 trace_request({"url":"/crx/de/index.jsp","method":"GET"})
-# Expected: filter stage status = denied
+# Expected: denied outside approved dev usage, otherwise explicitly documented
 ```
 
 **References:**

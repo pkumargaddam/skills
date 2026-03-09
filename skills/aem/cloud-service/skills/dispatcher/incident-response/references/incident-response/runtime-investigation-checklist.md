@@ -17,13 +17,16 @@
 5. `validate` and `lint` for structural/security regressions.
 6. `sdk(action="check-files")` for immutable/include drift.
 
-Map these checks to `INC-*` IDs in [test-case-catalog.md](../technical-advisory/test-case-catalog.md).
+Map these checks to `INC-*` IDs in [test-case-catalog.md](../../../shared/references/dispatcher-foundation/test-case-catalog.md).
 
 ## Common Patterns
 
 - Rising 5xx + render timeout patterns: backend/render instability or routing mismatch.
 - High MISS rate + stale content complaints: invalidation/config drift or cache bypass rules.
 - Sudden 403 spike: filter order/constraint regression.
+- Probe/readiness failure: rewrite/vhost interference on `/systemready`, `/system/probes/*`, or managed rewrite-map readiness gating.
+- Host-specific anomaly: missing required aliases, wrong vhost match, or catch-all host behavior taking traffic unexpectedly.
+- Dev-only path behaving like prod (or vice versa): environment-sensitive passthrough on `/crx/(de|server)/` or `/content/test-site/`.
 
 ## Escalation Trigger
 

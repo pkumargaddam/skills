@@ -15,7 +15,7 @@
 /libs/granite/core/content/login*  # Login pages (should be via CDN/publish)
 /apps/*/install/*                  # Package installation
 /etc/packages/*                    # Package management
-/system/health*                    # Health checks (should be internal only)
+/system/health*                    # Health checks (should be limited to trusted callers)
 ```
 
 ### Query & Content APIs
@@ -55,7 +55,7 @@
 ```
 /content/dam/*              # Digital assets (check permissions)
 ```
-**Note:** Public assets OK, but verify no PII/internal docs.
+**Note:** Public assets OK, but verify no PII or restricted business documents.
 
 ### Servlets
 ```
@@ -107,7 +107,7 @@ X-HTTP-Method-Override: GET
 
 ### Legacy Paths
 ```
-/etc/cloudservices/*        # Cloud service configs
+/etc/cloudservices/*        # Legacy external service integration configs
 /etc/mobile/*               # Mobile configs
 ```
 
@@ -156,7 +156,7 @@ trace_request({"url":"/content/site/en.infinity.json","method":"GET"})
 # Expected: filter denied or depth-limited behavior
 
 inspect_cache({"url":"/content/site/en/my-account.html","show_metadata":true})
-# Expected: not cached (for auth/private content)
+# Expected: not cached (for authenticated or no-store content)
 ```
 
 ## Finding Templates

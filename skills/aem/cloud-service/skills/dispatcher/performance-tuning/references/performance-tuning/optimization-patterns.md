@@ -138,13 +138,13 @@
 
 **Before:**
 ```html
-<link rel="stylesheet" href="/etc/designs/site/clientlib.css">
+<link rel="stylesheet" href="/etc.clientlibs/site/clientlib.css">
 ```
 
 **After:**
 ```html
-<link rel="stylesheet" href="/etc/designs/site/clientlib.v20260303.css">
-<!-- Or use query string: /etc/designs/site/clientlib.css?v=20260303 -->
+<link rel="stylesheet" href="/etc.clientlibs/site/clientlib.v20260303.css">
+<!-- Or use query string: /etc.clientlibs/site/clientlib.css?v=20260303 -->
 ```
 
 ```apache
@@ -175,7 +175,7 @@ RewriteRule ^(.*)\.(v[0-9]+)\.(css|js)$ $1.$3 [L]
 /filter {
     /0000 { /glob "*" /type "deny" }  # Deny by default
     /0001 { /glob "/content/site/*/en/*" /type "allow" /method "GET" }  # Specific allow
-    /0002 { /glob "/etc/designs/site/*" /type "allow" /method "GET" }
+    /0002 { /glob "/etc.clientlibs/site/*" /type "allow" /method "GET" }
     # Fewer, more specific rules
 }
 ```
@@ -237,20 +237,20 @@ Header always set X-Custom-Header-3 "value3"
 
 ## Cloud-Specific Patterns (AEMaaCS)
 
-### Pattern 10: CDN Push for Static Assets
+### Pattern 10: Dispatcher/CDN-Friendly Static Asset Headers
 
 **Before:**
 All static assets served through dispatcher.
 
 **After:**
 ```apache
-# Rewrite static asset requests to CDN
-RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|svg|css|js|woff|woff2)$
-RewriteCond %{HTTP_HOST} ^dispatcher\.site\.com$
-RewriteRule ^(.*)$ https://cdn.site.com$1 [R=301,L]
+# Keep assets cacheable with headers that downstream CDN/browser layers can honor
+<LocationMatch "\.(jpg|jpeg|png|gif|svg|css|js|woff|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+</LocationMatch>
 ```
 
-**Expected Impact:** -30-50% dispatcher load for static assets, global CDN distribution.
+**Expected Impact:** Better edge/browser offload without moving CDN policy into custom rewrite logic.
 
 ---
 

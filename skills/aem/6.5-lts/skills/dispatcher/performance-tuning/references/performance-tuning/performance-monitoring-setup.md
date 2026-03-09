@@ -39,7 +39,7 @@ Guide proactive performance monitoring configuration (not incident-driven alerti
 
 ```bash
 # Apache server status
-curl http://localhost/server-status?auto
+curl http://dispatcher-host.example/server-status?auto
 
 # Key metrics to extract:
 # - BusyWorkers / Total Workers
@@ -70,10 +70,10 @@ tail_logs({
 })
 ```
 
-### Nagios/Icinga Integration
+### Example Traditional Monitoring Integration
 
 ```ini
-# Example Nagios check for cache hit ratio
+# Example service check for cache hit ratio
 define command {
     command_name    check_dispatcher_cache_hit_ratio
     command_line    /usr/local/bin/check_cache_hit_ratio.sh -w 70 -c 60 -l /var/log/httpd/access_log
@@ -112,7 +112,7 @@ define service {
    - Worker/thread saturation (gauge)
    - Traffic forecast vs capacity (dual-axis line chart)
 
-### Grafana Dashboard Example
+### Example Dashboard Definition
 
 ```json
 {
@@ -199,11 +199,11 @@ Week of [Date Range]
 ## Monitoring Setup Checklist
 
 ### Initial Setup
-- [ ] Identify monitoring platform (Prometheus, Nagios, Zabbix, Splunk, ELK)
+- [ ] Identify a monitoring platform or metrics sink that fits the environment
 - [ ] Configure metric collection (MCP tools, log parsing, or custom exporters)
 - [ ] Define KPI targets and alert thresholds
 - [ ] Create performance dashboard with essential widgets
-- [ ] Set up alert routing (email, Slack, PagerDuty)
+- [ ] Set up alert routing (for example: email, chat, or incident-management tooling)
 - [ ] Document escalation procedures
 
 
@@ -211,7 +211,7 @@ Week of [Date Range]
 - [ ] Configure Apache server-status endpoint
 - [ ] Set up system metrics collection (vmstat, iostat)
 - [ ] Configure log rotation for long-term analysis
-- [ ] Integrate with on-prem monitoring (Nagios, Zabbix)
+- [ ] Integrate with your on-prem or self-managed monitoring stack
 
 ### Ongoing Maintenance
 - [ ] Review dashboard weekly for trends

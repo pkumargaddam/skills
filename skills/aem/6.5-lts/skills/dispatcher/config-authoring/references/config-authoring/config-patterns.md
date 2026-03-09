@@ -20,7 +20,7 @@ When authoring or reviewing **any** URL-based rule (filter, cache, etc.), decomp
 Preferred posture:
 1. Start deny-first (broad deny baseline).
 2. Add explicit allows per business route.
-3. Keep targeted denies for sensitive/internal paths; place these **after** any broader allow that could match the same path so the deny wins.
+3. Keep targeted denies for sensitive or system-only paths; place these **after** any broader allow that could match the same path so the deny wins.
 
 Guidelines:
 - Avoid broad allows such as `/url "*"` with weak constraints.
@@ -92,7 +92,7 @@ Guidelines:
 - Order from most specific to least specific.
 - Prevent redirect loops and over-broad matches.
 - Preserve query strings only when behavior requires it.
-- Avoid rewriting internal/system paths unless explicitly intended.
+- Avoid rewriting system-only paths unless explicitly intended.
 - When rewrite output affects Dispatcher routing/filter decisions, ensure Apache is configured with `DispatcherUseProcessedURL 1`.
 
 ## Headers and Hardening
@@ -100,7 +100,7 @@ Guidelines:
 Guidelines:
 - Keep security headers consistent on public vhosts.
 - Keep cache headers aligned with cache policy.
-- Avoid exposing backend/internal headers.
+- Avoid exposing backend-only headers.
 
 ## Include Hygiene
 
