@@ -46,7 +46,7 @@ When handing off from advisory to an execution skill, include:
 
 - selected mode (`cloud`)
 - objective and acceptance criteria
-- required test IDs from [test-case-catalog.md](../../../shared/references/dispatcher-foundation/test-case-catalog.md)
+- required test IDs from [test-case-catalog.md](../dispatcher-foundation/test-case-catalog.md)
 - required checks from `mode-specific-verification-matrix.md`
 - key citations used to justify the approach
 

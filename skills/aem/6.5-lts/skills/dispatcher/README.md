@@ -26,20 +26,18 @@ Use these skills for:
 
 ## Shared Foundation
 
-Cross-cutting references live in `shared/references/dispatcher-foundation/`.
+Cross-cutting references are packaged directly inside each skill under `references/dispatcher-foundation/`.
 
 That directory contains repo-layout guidance, verification matrices, rollback templates, test catalogs, public-doc indexes, and AMS guardrails used across multiple skills. It is intentionally not limited to technical-advisory content.
 
-Cross-variant references live under `../../shared/references/dispatcher/`.
 
-- [`core-7-tools-reference.md`](../../../shared/references/dispatcher/core-7-tools-reference.md) explains the shared MCP tool contract used by all dispatcher skills.
-- [`cloud-vs-ams-dispatcher-guide.md`](../../../shared/references/dispatcher/cloud-vs-ams-dispatcher-guide.md) summarizes key differences between AEMaaCS and AMS dispatcher work.
+
 
 ## How To Start
 
 For broad or first-time requests, start with:
 
-- `shared/references/dispatcher-foundation/quick-start-execution-path.md`
+- `workflow-orchestrator/references/dispatcher-foundation/quick-start-execution-path.md`
 - `workflow-orchestrator/SKILL.md`
 
 For targeted work, start with the specialist skill that matches the request.

@@ -12,7 +12,7 @@
 **Audit Checks:**
 - [ ] Deny-by-default filter posture
 - [ ] Admin paths blocked (`/crx/*`, `/system/*`)
-- [ ] Non-public servlets protected (`/bin/querybuilder*`)
+- [ ] Sensitive servlets protected (`/bin/querybuilder*`)
 - [ ] Method restrictions enforced (POST/PUT/DELETE)
 - [ ] No glob wildcard allows
 
@@ -239,8 +239,8 @@ monitor_metrics({"window_minutes":60,"breakdown_by":"status_code"})
 
 **MCP Validation:**
 ```text
-trace_request({"url":"/content/site/proxy?url=http://127.0.0.1","method":"GET"})           # Should deny
-trace_request({"url":"/content/site/proxy?url=http://169.254.169.254","method":"GET"})     # Should deny
+trace_request({"url":"/content/site/proxy?url=http://<loopback-target>","method":"GET"})           # Should deny
+trace_request({"url":"/content/site/proxy?url=http://<metadata-service-address>","method":"GET"})  # Should deny
 ```
 
 **Severity if Failed:** High

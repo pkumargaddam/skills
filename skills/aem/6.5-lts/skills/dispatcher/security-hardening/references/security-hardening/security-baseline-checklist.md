@@ -5,7 +5,7 @@
 - [ ] **Deny-by-default posture**: First filter rule is `{ /glob "*" /type "deny" }`
 - [ ] **Explicit allow rules**: All allows are specific (path + method + extension/selector)
 - [ ] **Admin paths blocked**: `/crx/*`, `/system/*`, `/bin/*` (except explicitly needed)
-- [ ] **Non-public servlets blocked**: `/libs/*/servlets/*`, `/apps/*/servlets/*` (unless intentionally exposed)
+- [ ] **Sensitive servlets blocked**: `/libs/*/servlets/*`, `/apps/*/servlets/*` (unless intentionally exposed)
 - [ ] **Method restrictions**: POST/PUT/DELETE denied on read-only content
 - [ ] **No glob wildcards in allows**: Avoid `/glob "*/admin"` patterns
 - [ ] **Selector/extension controls**: Prevent bypasses like `.json;.css`

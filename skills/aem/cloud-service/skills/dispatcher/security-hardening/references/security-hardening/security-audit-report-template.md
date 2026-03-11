@@ -123,7 +123,7 @@ Verification:
 ## Mode-Specific Notes
 
 ### Cloud
-- runtime evidence may rely on local dispatcher container access
+- runtime evidence may rely on local Dispatcher runtime access
 - if auto-discovery fails, record the container name used for manual checks
 
 ## Remediation Plan

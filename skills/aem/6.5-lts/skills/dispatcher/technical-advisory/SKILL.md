@@ -39,12 +39,12 @@ Use only these Dispatcher MCP tools when producing verification plans:
 ## Workflow
 
 1. Confirm scope and assumptions.
-2. If the repo layout or execution path is unclear, start with [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) and [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md).
+2. If the repo layout or execution path is unclear, start with [quick-start-execution-path.md](./references/dispatcher-foundation/quick-start-execution-path.md) and [repo-layout-workflows.md](./references/dispatcher-foundation/repo-layout-workflows.md).
 3. Use [capability-coverage-map.md](./references/technical-advisory/capability-coverage-map.md) to route prompt/tool/resource intents to the right dispatcher skill flow.
 4. Select a scenario path from [core7-capability-playbook.md](./references/technical-advisory/core7-capability-playbook.md) for development/debugging requests.
 5. For conceptual questions (e.g. statfileslevel, filter order, URL decomposition, cache invalidation), use [concepts.md](./references/technical-advisory/concepts.md) and cite official docs.
-6. Apply [ams-6-5-guardrails.md](../shared/references/dispatcher-foundation/ams-6-5-guardrails.md) before recommendations (tier boundaries, variables, flush ACL, immutable constraints).
-7. Convert the selected playbook to exact MCP commands with [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md).
+6. Apply [ams-6-5-guardrails.md](./references/dispatcher-foundation/ams-6-5-guardrails.md) before recommendations (tier boundaries, variables, flush ACL, immutable constraints).
+7. Convert the selected playbook to exact MCP commands with [playbook-command-linkage.md](./references/dispatcher-foundation/playbook-command-linkage.md).
 8. Use curated public references for recommendations in this variant.
 9. Produce MCP verification steps for this variant when needed.
 10. Route execution-heavy changes to this variant's execution skills.
@@ -53,8 +53,8 @@ Use only these Dispatcher MCP tools when producing verification plans:
 
 Use shared references for deterministic coverage:
 
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
 
 ## Output Contract
 
@@ -75,15 +75,14 @@ Use one of these output shapes:
 - [core7-capability-playbook.md](./references/technical-advisory/core7-capability-playbook.md) – high-value development/debugging playbooks for the current core-7 MCP contract
 - [capability-coverage-map.md](./references/technical-advisory/capability-coverage-map.md) – prompt/tool/resource coverage map to current dispatcher skill workflows
 - [concepts.md](./references/technical-advisory/concepts.md) – key concepts (filter last-match, URL decomposition, statfileslevel, invalidate vs flush) for explanations
-- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) – single entry path for broad or first-time requests
-- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md) – normalize repos to the dispatcher `src` root and likely file families
-- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md) – deterministic linkage from playbooks to MCP commands and tests
-- [ams-6-5-guardrails.md](../shared/references/dispatcher-foundation/ams-6-5-guardrails.md) – AMS topology/variables/flush and immutable-file constraints
-- [public-docs-index.md](../shared/references/dispatcher-foundation/public-docs-index.md)
-- [public-doc-citation-rules.md](../shared/references/dispatcher-foundation/public-doc-citation-rules.md)
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
-- [change-risk-and-rollback-template.md](../shared/references/dispatcher-foundation/change-risk-and-rollback-template.md)
-- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)
-- [cloud-vs-ams-dispatcher-guide.md](../../../../shared/references/dispatcher/cloud-vs-ams-dispatcher-guide.md)
+- [quick-start-execution-path.md](./references/dispatcher-foundation/quick-start-execution-path.md) – single entry path for broad or first-time requests
+- [repo-layout-workflows.md](./references/dispatcher-foundation/repo-layout-workflows.md) – normalize repos to the dispatcher `src` root and likely file families
+- [playbook-command-linkage.md](./references/dispatcher-foundation/playbook-command-linkage.md) – deterministic linkage from playbooks to MCP commands and tests
+- [ams-6-5-guardrails.md](./references/dispatcher-foundation/ams-6-5-guardrails.md) – AMS topology/variables/flush and immutable-file constraints
+- [public-docs-index.md](./references/dispatcher-foundation/public-docs-index.md)
+- [public-doc-citation-rules.md](./references/dispatcher-foundation/public-doc-citation-rules.md)
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
+- [change-risk-and-rollback-template.md](./references/dispatcher-foundation/change-risk-and-rollback-template.md)
+- [core-7-tools-reference.md](./references/dispatcher-foundation/core-7-tools-reference.md)
 - [request-router.md](./references/technical-advisory/request-router.md)

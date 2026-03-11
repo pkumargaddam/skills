@@ -125,7 +125,7 @@ MCP checks:
 ## Mode Notes
 
 ### Cloud (`AEM_DEPLOYMENT_MODE=cloud`)
-- Runtime log/cache checks can run against local dispatcher container.
+- Runtime log/cache checks can run against a local Dispatcher runtime.
 - If container discovery fails, use the actual container name explicitly in the runtime check.
 - Header examples should stay compatible with the managed `conf.d/dispatcher_vhost.conf` shape instead of introducing standalone TLS-terminating vhosts.
 

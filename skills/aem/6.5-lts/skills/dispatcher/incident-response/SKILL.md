@@ -49,8 +49,8 @@ Use only these Dispatcher MCP tools:
 
 Use shared references to select incident evidence depth:
 
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
 
 ## Output Contract
 
@@ -76,13 +76,13 @@ Always return:
 - [incident-scenario-playbooks.md](./references/incident-response/incident-scenario-playbooks.md) – focused debug scenarios adapted from broader MCP prompt surfaces
 - [symptom-hypothesis-matrix.md](./references/incident-response/symptom-hypothesis-matrix.md) – troubleshooting hypothesis shortcuts for faster evidence-driven diagnosis
 - [incident-report-template.md](./references/incident-response/incident-report-template.md)
-- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) – normalize repo root and select the incident path quickly
-- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md) – map the failing behavior to the relevant dispatcher file families
-- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md) – exact MCP command chains for incident playbooks
-- [ams-6-5-guardrails.md](../shared/references/dispatcher-foundation/ams-6-5-guardrails.md)
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
-- [change-risk-and-rollback-template.md](../shared/references/dispatcher-foundation/change-risk-and-rollback-template.md)
-- [public-docs-index.md](../shared/references/dispatcher-foundation/public-docs-index.md)
-- [public-doc-citation-rules.md](../shared/references/dispatcher-foundation/public-doc-citation-rules.md)
-- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)
+- [quick-start-execution-path.md](./references/dispatcher-foundation/quick-start-execution-path.md) – normalize repo root and select the incident path quickly
+- [repo-layout-workflows.md](./references/dispatcher-foundation/repo-layout-workflows.md) – map the failing behavior to the relevant dispatcher file families
+- [playbook-command-linkage.md](./references/dispatcher-foundation/playbook-command-linkage.md) – exact MCP command chains for incident playbooks
+- [ams-6-5-guardrails.md](./references/dispatcher-foundation/ams-6-5-guardrails.md)
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
+- [change-risk-and-rollback-template.md](./references/dispatcher-foundation/change-risk-and-rollback-template.md)
+- [public-docs-index.md](./references/dispatcher-foundation/public-docs-index.md)
+- [public-doc-citation-rules.md](./references/dispatcher-foundation/public-doc-citation-rules.md)
+- [core-7-tools-reference.md](./references/dispatcher-foundation/core-7-tools-reference.md)

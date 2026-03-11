@@ -49,8 +49,8 @@ Use only these Dispatcher MCP tools:
 
 Use shared references to select optimization evidence depth:
 
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
 
 ## Output Contract
 
@@ -76,13 +76,13 @@ Always return:
 - [performance-scenario-playbooks.md](./references/performance-tuning/performance-scenario-playbooks.md) – scenario-driven tuning flows adapted from broader MCP prompt surfaces
 - [load-testing-guidance.md](./references/performance-tuning/load-testing-guidance.md)
 - [performance-monitoring-setup.md](./references/performance-tuning/performance-monitoring-setup.md)
-- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) – fast entry path for optimization requests
-- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md) – map performance findings to cache, farm, vhost, and rewrite file families
-- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md) – exact MCP command chains for tuning playbooks
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [cloud-service-aemaacs-guardrails.md](../shared/references/dispatcher-foundation/cloud-service-aemaacs-guardrails.md) – cloud-service-only immutable/include/runtime boundary checks from AEMaaCS patterns
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
-- [change-risk-and-rollback-template.md](../shared/references/dispatcher-foundation/change-risk-and-rollback-template.md)
-- [public-docs-index.md](../shared/references/dispatcher-foundation/public-docs-index.md)
-- [public-doc-citation-rules.md](../shared/references/dispatcher-foundation/public-doc-citation-rules.md)
-- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)
+- [quick-start-execution-path.md](./references/dispatcher-foundation/quick-start-execution-path.md) – fast entry path for optimization requests
+- [repo-layout-workflows.md](./references/dispatcher-foundation/repo-layout-workflows.md) – map performance findings to cache, farm, vhost, and rewrite file families
+- [playbook-command-linkage.md](./references/dispatcher-foundation/playbook-command-linkage.md) – exact MCP command chains for tuning playbooks
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [cloud-service-aemaacs-guardrails.md](./references/dispatcher-foundation/cloud-service-aemaacs-guardrails.md) – cloud-service-only immutable/include/runtime boundary checks from AEMaaCS patterns
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
+- [change-risk-and-rollback-template.md](./references/dispatcher-foundation/change-risk-and-rollback-template.md)
+- [public-docs-index.md](./references/dispatcher-foundation/public-docs-index.md)
+- [public-doc-citation-rules.md](./references/dispatcher-foundation/public-doc-citation-rules.md)
+- [core-7-tools-reference.md](./references/dispatcher-foundation/core-7-tools-reference.md)

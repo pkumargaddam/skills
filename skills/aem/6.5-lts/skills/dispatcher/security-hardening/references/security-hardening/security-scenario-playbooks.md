@@ -54,3 +54,10 @@
 2. Run `sdk(action="check-files")` for immutable/include drift.
 3. Flag recommendations that require immutable edits and replace with mutable-include alternatives.
 4. Return explicit risk if full host-level syntax/runtime proof is unavailable.
+
+## Playbook 9: CSRF Endpoint Hardening Review
+
+1. Confirm CSRF token endpoints remain explicitly reachable only as required by application flows.
+2. Ensure CSRF token responses are excluded from cache rules and cannot be served stale from dispatcher cache.
+3. Validate dispatcher and (if changed) Apache snippets, then trace one valid token request and one abuse-style variant.
+4. Document exact deny/allow evidence and cite the Dispatcher CSRF hardening guidance.

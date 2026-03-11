@@ -42,9 +42,9 @@ Use this skill when users need end-to-end Dispatcher support instead of a single
 
 Use these shared references to keep broad requests deterministic:
 
-1. Start with [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) when the user is new, the repo root is ambiguous, or the request spans multiple concerns.
-2. Normalize the repo to a dispatcher `src` root with [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md).
-3. Convert the chosen specialist playbook into exact MCP commands with [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md).
+1. Start with [quick-start-execution-path.md](./references/dispatcher-foundation/quick-start-execution-path.md) when the user is new, the repo root is ambiguous, or the request spans multiple concerns.
+2. Normalize the repo to a dispatcher `src` root with [repo-layout-workflows.md](./references/dispatcher-foundation/repo-layout-workflows.md).
+3. Convert the chosen specialist playbook into exact MCP commands with [playbook-command-linkage.md](./references/dispatcher-foundation/playbook-command-linkage.md).
 4. Use the specialist skill references only after the path above is fixed.
 
 ## Entry Criteria
@@ -77,8 +77,7 @@ Always return:
 
 ## References
 
-- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md)
-- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md)
-- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md)
-- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)
-- [cloud-vs-ams-dispatcher-guide.md](../../../../shared/references/dispatcher/cloud-vs-ams-dispatcher-guide.md)
+- [quick-start-execution-path.md](./references/dispatcher-foundation/quick-start-execution-path.md)
+- [repo-layout-workflows.md](./references/dispatcher-foundation/repo-layout-workflows.md)
+- [playbook-command-linkage.md](./references/dispatcher-foundation/playbook-command-linkage.md)
+- [core-7-tools-reference.md](./references/dispatcher-foundation/core-7-tools-reference.md)

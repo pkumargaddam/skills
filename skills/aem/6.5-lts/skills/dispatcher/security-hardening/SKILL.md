@@ -49,8 +49,8 @@ Use only these Dispatcher MCP tools:
 
 Use shared references to select security evidence depth:
 
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
 
 ## Output Contract
 
@@ -78,13 +78,13 @@ Always return:
 - [sensitive-paths-catalog.md](./references/security-hardening/sensitive-paths-catalog.md)
 - [owasp-coverage-matrix.md](./references/security-hardening/owasp-coverage-matrix.md)
 - [security-audit-report-template.md](./references/security-hardening/security-audit-report-template.md)
-- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) – single entry path for broad or first-time audits
-- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md) – map findings to actual dispatcher file families
-- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md) – exact MCP command chains for security playbooks
-- [ams-6-5-guardrails.md](../shared/references/dispatcher-foundation/ams-6-5-guardrails.md)
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
-- [change-risk-and-rollback-template.md](../shared/references/dispatcher-foundation/change-risk-and-rollback-template.md)
-- [public-docs-index.md](../shared/references/dispatcher-foundation/public-docs-index.md)
-- [public-doc-citation-rules.md](../shared/references/dispatcher-foundation/public-doc-citation-rules.md)
-- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)
+- [quick-start-execution-path.md](./references/dispatcher-foundation/quick-start-execution-path.md) – single entry path for broad or first-time audits
+- [repo-layout-workflows.md](./references/dispatcher-foundation/repo-layout-workflows.md) – map findings to actual dispatcher file families
+- [playbook-command-linkage.md](./references/dispatcher-foundation/playbook-command-linkage.md) – exact MCP command chains for security playbooks
+- [ams-6-5-guardrails.md](./references/dispatcher-foundation/ams-6-5-guardrails.md)
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
+- [change-risk-and-rollback-template.md](./references/dispatcher-foundation/change-risk-and-rollback-template.md)
+- [public-docs-index.md](./references/dispatcher-foundation/public-docs-index.md)
+- [public-doc-citation-rules.md](./references/dispatcher-foundation/public-doc-citation-rules.md)
+- [core-7-tools-reference.md](./references/dispatcher-foundation/core-7-tools-reference.md)

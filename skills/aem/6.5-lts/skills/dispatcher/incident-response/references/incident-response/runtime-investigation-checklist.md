@@ -17,7 +17,7 @@
 5. `validate` and `lint` for structural/security regressions.
 6. `sdk(action="check-files")` for immutable/include drift.
 
-Map these checks to `INC-*` IDs in [test-case-catalog.md](../../../shared/references/dispatcher-foundation/test-case-catalog.md).
+Map these checks to `INC-*` IDs in [test-case-catalog.md](../dispatcher-foundation/test-case-catalog.md).
 
 ## Common Patterns
 

@@ -47,3 +47,10 @@
 2. Verify customer redirects, canonical-host logic, or auth rules do not intercept these endpoints.
 3. Confirm readiness and health paths stay reachable according to cloud defaults.
 4. Escalate any interception as a release-blocking finding because it can break platform health behavior.
+
+## Playbook 8: CSRF Endpoint Hardening Review
+
+1. Confirm CSRF token endpoints remain explicitly reachable only where required by application behavior.
+2. Ensure cache rules continue to bypass CSRF token responses and that no custom rewrite/filter change weakens this.
+3. Validate dispatcher/httpd changes, then trace one valid token flow and one abuse-style variant.
+4. Document runtime evidence and cite Dispatcher CSRF hardening plus cloud default compatibility rationale.

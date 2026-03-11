@@ -52,3 +52,11 @@
 3. If enabling cache, align CORS and preflight handling first so cached GraphQL responses do not break browser clients.
 4. Validate httpd/vhost changes and verify one persisted-query path plus one non-cacheable GraphQL control path.
 5. Compare cache behavior and latency after the change, with a rollback path that reverts only the persisted-query toggle and related headers.
+
+## Playbook 8: Cloud Cache Operations Runbook (Enable/Disable/Purge)
+
+1. Identify whether the need is targeted purge, temporary cache disable, or selective cache enablement.
+2. Apply the smallest scope change first (single path/pattern before global behavior changes).
+3. Validate config changes with `validate` + `lint`, then verify behavior with `inspect_cache` and `trace_request`.
+4. If purge is used, confirm origin freshness and downstream CDN/dispatcher alignment to avoid stale rehydration loops.
+5. Capture rollback steps and cite the cloud caching how-to guidance (enable, disable, purge).

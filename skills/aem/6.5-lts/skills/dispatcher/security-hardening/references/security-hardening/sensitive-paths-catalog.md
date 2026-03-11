@@ -55,7 +55,7 @@
 ```
 /content/dam/*              # Digital assets (check permissions)
 ```
-**Note:** Public assets OK, but verify no PII or restricted business documents.
+**Note:** Public assets OK, but verify no PII or restricted documents.
 
 ### Servlets
 ```

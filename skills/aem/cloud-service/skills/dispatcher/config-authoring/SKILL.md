@@ -54,8 +54,8 @@ Cloud Config Progress
 
 Use the shared references to select the minimum evidence set:
 
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
 
 ## Output Contract
 
@@ -86,14 +86,14 @@ Permission-sensitive caching (`/auth_checker`) is end-to-end: it requires both D
 - [reference-snippets.md](./references/config-authoring/reference-snippets.md) – reusable starter snippets for consistent config authoring
 - [validation-playbook.md](./references/config-authoring/validation-playbook.md)
 - [mcp-tool-orchestration.md](./references/config-authoring/mcp-tool-orchestration.md)
-- [quick-start-execution-path.md](../shared/references/dispatcher-foundation/quick-start-execution-path.md) – single entry path for new users and broad requests
-- [local-sdk-execution.md](../shared/references/dispatcher-foundation/local-sdk-execution.md) – shipped local SDK launcher contract for `docker_run.sh`, hot reload, and runtime env vars
-- [repo-layout-workflows.md](../shared/references/dispatcher-foundation/repo-layout-workflows.md) – map the user repo to the dispatcher `src` root and likely file families
-- [playbook-command-linkage.md](../shared/references/dispatcher-foundation/playbook-command-linkage.md) – convert selected playbooks into exact MCP command chains
-- [mode-specific-verification-matrix.md](../shared/references/dispatcher-foundation/mode-specific-verification-matrix.md)
-- [cloud-service-aemaacs-guardrails.md](../shared/references/dispatcher-foundation/cloud-service-aemaacs-guardrails.md) – cloud-service-only immutable/include/runtime boundary checks from AEMaaCS patterns
-- [test-case-catalog.md](../shared/references/dispatcher-foundation/test-case-catalog.md)
-- [change-risk-and-rollback-template.md](../shared/references/dispatcher-foundation/change-risk-and-rollback-template.md)
-- [public-doc-citation-rules.md](../shared/references/dispatcher-foundation/public-doc-citation-rules.md)
-- [public-docs-index.md](../shared/references/dispatcher-foundation/public-docs-index.md)
-- [core-7-tools-reference.md](../../../../shared/references/dispatcher/core-7-tools-reference.md)
+- [quick-start-execution-path.md](./references/dispatcher-foundation/quick-start-execution-path.md) – single entry path for new users and broad requests
+- [local-sdk-execution.md](./references/dispatcher-foundation/local-sdk-execution.md) – shipped local SDK launcher contract for `docker_run.sh`, hot reload, and runtime env vars
+- [repo-layout-workflows.md](./references/dispatcher-foundation/repo-layout-workflows.md) – map the user repo to the dispatcher `src` root and likely file families
+- [playbook-command-linkage.md](./references/dispatcher-foundation/playbook-command-linkage.md) – convert selected playbooks into exact MCP command chains
+- [mode-specific-verification-matrix.md](./references/dispatcher-foundation/mode-specific-verification-matrix.md)
+- [cloud-service-aemaacs-guardrails.md](./references/dispatcher-foundation/cloud-service-aemaacs-guardrails.md) – cloud-service-only immutable/include/runtime boundary checks from AEMaaCS patterns
+- [test-case-catalog.md](./references/dispatcher-foundation/test-case-catalog.md)
+- [change-risk-and-rollback-template.md](./references/dispatcher-foundation/change-risk-and-rollback-template.md)
+- [public-doc-citation-rules.md](./references/dispatcher-foundation/public-doc-citation-rules.md)
+- [public-docs-index.md](./references/dispatcher-foundation/public-docs-index.md)
+- [core-7-tools-reference.md](./references/dispatcher-foundation/core-7-tools-reference.md)

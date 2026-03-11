@@ -12,7 +12,7 @@ This file maps dispatcher MCP capability requirements to the current **skill + c
 | `troubleshoot` | Cache, hit-ratio, invalidation, vanity, escalation diagnostics | `incident-response` + `incident-scenario-playbooks.md` + `symptom-hypothesis-matrix.md` + runtime/static checks |
 | `explain` | Directive and behavior explanations | `technical-advisory` + `concepts.md` + `public-docs-index.md` + citation rules |
 | `get_knowledge` | Topic knowledge retrieval | Curated references directly in skill `references/` + explicit citation policy |
-| AMS 6.5 topology/variable constraints | Tier routing, env var usage, flush ACL safety, immutable boundaries | `ams-6-5-guardrails.md` + mode-specific verification matrix + `validate(type=\"ams\")` |
+| AMS 6.5 topology/variable constraints | Tier routing, env var usage, flush ACL safety, immutable boundaries | `ams-6-5-guardrails.md` + mode-specific verification matrix + `validate({"config":"<dispatcher.any or farm section>","type":"ams"})` |
 | Incident/workflow orchestration | Structured remediation flows | Skill-specific output contracts + scenario playbooks + rollback templates |
 
 ## Prompt Intent Coverage
