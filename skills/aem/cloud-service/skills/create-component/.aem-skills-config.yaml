@@ -1,0 +1,18 @@
+# AEM AI Skills - Project Configuration
+# This file is shared across all AEM AI skills and is NOT part of any skill directory.
+# It will NOT be overwritten when skills are updated to a new version.
+# Fill in your project values below, then set configured: true
+
+configured: false
+
+# Project name from AEM archetype, used in paths like /apps/{project}/
+# Find it in your root pom.xml <artifactId> or check /apps/{project-name}/
+project: ""
+
+# Java base package for Sling Models
+# Find it in core/pom.xml or existing Java files' package declarations
+package: ""
+
+# Component group shown in Touch UI editor
+# Find it in existing components' .content.xml for componentGroup
+group: ""
