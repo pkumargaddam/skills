@@ -17,44 +17,46 @@ Creates complete AEM components following Adobe best practices.
 
 ---
 
-## MANDATORY FIRST ACTION - Configuration Gate Check
+## MANDATORY FIRST ACTION - Configuration Check
 
 > **YOU MUST PERFORM THIS CHECK BEFORE ANYTHING ELSE**
 
 **FIRST TOOL CALL**: Read `.aem-skills-config.yaml` in the **project root** (same level as `pom.xml`).
 
-**CHECK**: Does the file exist and does it have `configured: true`?
-
 | Status | Action |
 |--------|--------|
-| File missing or `configured: false` | **STOP IMMEDIATELY**. Display error message below. Do NOT explore codebase. WAIT for user. |
-| `configured: true` | Read `project`, `package`, and `group` values from the YAML file. Proceed with component creation. |
+| File exists AND `configured: true` | Read `project`, `package`, and `group` values. **Proceed to Step 1.** |
+| File exists but `configured: false` or values are empty | **Auto-detect values** (see below), confirm with user, update the file, then proceed. |
+| File does NOT exist | **Auto-detect values** (see below), confirm with user, create the file, then proceed. |
 
-### If NOT configured, Display This Message and STOP:
+### Auto-Detection of Project Values
+
+When the config file is missing or not yet configured, detect values from the codebase:
+
+1. **project**: Read root `pom.xml` → look for `<artifactId>` under the root `<project>`. Fallback: list directories under `ui.apps/src/main/content/jcr_root/apps/` to find the project folder name.
+2. **package**: Read `core/pom.xml` → look for a `<package>` element or construct from `<groupId>` + `<artifactId>`. Fallback: find any `.java` file under `core/src/main/java/` and read its `package` declaration.
+3. **group**: Find any existing component's `.content.xml` under `ui.apps/.../components/` and read the `componentGroup` attribute. Fallback: derive from the project name by converting to title case and appending " Components" (e.g., project `wknd` → `WKND Components`).
+
+### Confirm with User
+
+Display the detected values and **wait for user confirmation before proceeding**:
 
 ```
-Project configuration required!
+I detected the following project settings:
+- project: "{detected-project}"
+- package: "{detected-package}"
+- group: "{detected-group}"
 
-Before creating components, configure your project settings in:
-`.aem-skills-config.yaml` (in your project root, same level as pom.xml)
-
-Open the file and update:
-- project: Your AEM project name (e.g., 'mysite', 'wknd')
-- package: Your Java package (e.g., 'com.mysite.core')
-- group: Your component group (e.g., 'MySite Components')
-- configured: true
-
-After updating, ask me to create the component again.
+Are these correct? (If not, please provide the correct values)
 ```
 
-### FORBIDDEN ACTIONS when not configured:
-- Reading any other repository files
-- Listing directories to "understand the project"
-- Checking existing components for patterns
-- Looking at pom.xml, Java files, or folder structures
-- Inferring values from ANY source
+### Write Config File
 
-**This gate check is NON-NEGOTIABLE. No exceptions.**
+After user confirms (or provides corrections):
+- Write `.aem-skills-config.yaml` to the project root with the confirmed values and `configured: true`
+- Proceed to Step 1
+
+**IMPORTANT**: Auto-detection is ONLY for first-time setup. Once `.aem-skills-config.yaml` exists with `configured: true`, always read values from the file — never re-detect.
 
 ---
 
@@ -70,7 +72,7 @@ After updating, ask me to create the component again.
 
 | Step | Action |
 |------|--------|
-| 0 | Configuration validation (MANDATORY FIRST) |
+| 0 | Configuration setup (MANDATORY FIRST) |
 | 1 | Extract & validate component name |
 | 1.5 | Component extension decision (if extending) |
 | 2 | Gather requirements & confirm dialog specification |
@@ -80,18 +82,16 @@ After updating, ask me to create the component again.
 
 ---
 
-## Step 0: Configuration Validation
+## Step 0: Configuration Setup
 
-### 0.1 Read Configuration
+### 0.1 Read or Create Configuration
 1. Read `.aem-skills-config.yaml` from the project root
-2. Check that `configured: true`
-3. Read `project`, `package`, and `group` values
+2. If `configured: true` → read `project`, `package`, `group` values and skip to 0.3
+3. If file is missing or `configured: false` → auto-detect values, confirm with user, write/update the file (see "MANDATORY FIRST ACTION" section above)
 
-### 0.2 Validate - FORBIDDEN INFERENCE SOURCES
+### 0.2 Config File is the Source of Truth
 
-**DO NOT infer values from:** File system, existing components, Java files, pom.xml, or your knowledge.
-
-**`.aem-skills-config.yaml` is the SINGLE SOURCE OF TRUTH.**
+After setup, **`.aem-skills-config.yaml` is the SINGLE SOURCE OF TRUTH** for `project`, `package`, and `group`. Do not re-detect or override these values on subsequent runs.
 
 ### 0.3 Load Conventions
 1. Read `references/aem-conventions.md` for file structure templates, naming conventions, and patterns

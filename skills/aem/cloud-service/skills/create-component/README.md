@@ -26,13 +26,11 @@ Copy the skills folder for your AI assistant to your AEM project root (same leve
 | Cursor | `.cursor/skills/create-component/` |
 | Factory AI | `.factory/skills/create-component/` |
 
-Also copy `.aem-skills-config.yaml` to the project root.
-
 ### Configuration
 
-Before creating any components, add `.aem-skills-config.yaml` in your project root.
+On first use, the skill automatically detects your project settings (`project`, `package`, `group`) from `pom.xml` and existing components, asks you to confirm, and creates `.aem-skills-config.yaml` in your project root. No manual setup required.
 
-> A sample `.aem-skills-config.yaml` is included in the skill directory — copy it to your project root and update the values.
+You can also pre-create the config file manually if preferred.
 
 Example configuration (using WKND project):
 
@@ -82,6 +80,6 @@ See `references/examples.md` inside the skill folder for more examples.
 
 | Issue | Solution |
 |-------|----------|
-| "Project configuration required" | Edit `.aem-skills-config.yaml` and set `configured: true` |
+| "Project configuration required" | The skill should auto-detect settings on first use. If it doesn't, create `.aem-skills-config.yaml` in your project root with `configured: true` and your project values |
 | Skill not recognized by AI assistant | Verify skill files exist at the correct path for your IDE (e.g., `.claude/skills/create-component/SKILL.md`) |
 | AI generates wrong paths or package names | Check values in `.aem-skills-config.yaml` match your actual project structure |

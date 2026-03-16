@@ -4,17 +4,11 @@
 
 Project configuration is loaded from `.aem-skills-config.yaml` in the **project root** (same level as `pom.xml`).
 
-> **AI AGENT GATE CHECK** - Read `.aem-skills-config.yaml` FIRST:
-> - If file is missing or `configured: false` → **STOP IMMEDIATELY**. Do NOT read any other files. Do NOT explore the codebase. Display the configuration error message and WAIT.
-> - If `configured: true` → Read `project`, `package`, and `group` values from that file. Proceed with component creation.
-
-> **⚠️ AI AGENTS - ABSOLUTE RULES:**
-> 1. **READ `.aem-skills-config.yaml` FIRST** - If missing or `configured: false`, STOP
-> 2. **DO NOT read any other files** in the repository to find values
-> 3. **DO NOT explore** `/apps/`, `core/`, `pom.xml`, or any existing components
-> 4. **DO NOT infer** values from folder structures, package names, or existing code
-> 5. **ONLY USE VALUES FROM `.aem-skills-config.yaml`** after `configured: true`
-> 6. **VIOLATION = IMMEDIATE FAILURE** - Any inference attempt is a rule violation
+> **AI AGENT - CONFIGURATION RULES:**
+> 1. **READ `.aem-skills-config.yaml` FIRST** — always check for it before anything else
+> 2. **If `configured: true`** → use `project`, `package`, and `group` values from the file. Do NOT re-detect or override them.
+> 3. **If file is missing or `configured: false`** → auto-detect values from the codebase (pom.xml, existing components, Java files), present them to the user for confirmation, then create/update the config file with `configured: true`
+> 4. **After config is established**, `.aem-skills-config.yaml` is the **SINGLE SOURCE OF TRUTH** — never re-infer values from the codebase
 
 ---
 
