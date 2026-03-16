@@ -5,7 +5,7 @@ description: |
   Use when user asks to create, build, or generate an AEM component. Supports extending Core Components
   and project components. Follows Adobe Experience League best practices for AEM Cloud Service and 6.5.
 license: Apache-2.0
-compatibility: Requires AEM as a Cloud Service or AEM 6.5. Maven project structure with core, ui.apps modules.
+compatibility: Requires AEM as a Cloud Service or AEM 6.5. Maven project structure with core, ui.apps modules. 
 metadata:
   version: "1.0"
   aem_version: "6.5/Cloud Service"
