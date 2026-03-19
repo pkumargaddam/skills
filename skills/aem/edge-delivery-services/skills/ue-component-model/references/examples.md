@@ -8,6 +8,9 @@
 5. [Key-Value Block: Product Details](#key-value-block-product-details)
 6. [Block with Content Fragment: Article](#block-with-content-fragment-article)
 7. [Section Configuration](#section-configuration)
+8. [Block with Textarea: Metadata](#block-with-textarea-metadata)
+9. [Block with Checkbox Group: Feature Toggles](#block-with-checkbox-group-feature-toggles)
+10. [Filter with RTE Configuration](#filter-with-rte-configuration)
 
 ---
 
@@ -345,7 +348,7 @@ Uses a Content Fragment reference.
       "valueType": "string"
     },
     {
-      "component": "text-input",
+      "component": "text",
       "name": "variation",
       "value": "",
       "label": "Variation",
@@ -420,3 +423,108 @@ Sections use the same model/filter system but with a different resource type.
 ```
 
 The `section` filter is the main gatekeeper: any block that should be available to authors **must** be listed here.
+
+---
+
+## Block with Textarea: Metadata
+
+A block using `textarea` for multi-line description input.
+
+### component-models.json entry
+```json
+{
+  "id": "metadata",
+  "fields": [
+    {
+      "component": "text",
+      "name": "title",
+      "label": "Page Title",
+      "valueType": "string"
+    },
+    {
+      "component": "textarea",
+      "name": "description",
+      "label": "Page Description",
+      "valueType": "string"
+    },
+    {
+      "component": "aem-tag",
+      "name": "tags",
+      "label": "Tags",
+      "valueType": "string"
+    }
+  ]
+}
+```
+
+**Key patterns**:
+- `textarea` for multi-line plain text (no formatting needed)
+- `aem-tag` for content categorization
+
+---
+
+## Block with Checkbox Group: Feature Toggles
+
+A block using `checkbox-group` for multiple independent boolean options.
+
+### component-models.json entry
+```json
+{
+  "id": "banner",
+  "fields": [
+    {
+      "component": "richtext",
+      "name": "text",
+      "label": "Banner Text",
+      "valueType": "string"
+    },
+    {
+      "component": "checkbox-group",
+      "name": "features",
+      "label": "Display Options",
+      "valueType": "string[]",
+      "options": [
+        { "name": "Show Close Button", "value": "show-close" },
+        { "name": "Show Icon", "value": "show-icon" },
+        { "name": "Sticky Position", "value": "sticky" }
+      ]
+    }
+  ]
+}
+```
+
+**Key patterns**:
+- `checkbox-group` with `valueType: "string[]"` for multiple independent toggles
+- Each option is independently selectable (unlike `radio-group` which is mutually exclusive)
+
+---
+
+## Filter with RTE Configuration
+
+A filter that customizes the richtext editor toolbar available to authors.
+
+### component-filters.json entry
+```json
+{
+  "id": "section",
+  "components": ["text", "image", "button", "title", "hero", "cards", "embed"],
+  "rte": {
+    "toolbar": {
+      "format": ["bold", "italic", "underline"],
+      "blocks": ["h2", "h3", "h4", "paragraph"],
+      "list": ["bullet_list", "ordered_list"],
+      "insert": ["link"]
+    },
+    "plugins": "link lists",
+    "icons": "thin",
+    "icons_url": "/icons/thin/icons.js",
+    "skin_url": "/skins/oxide"
+  }
+}
+```
+
+**Key patterns**:
+- `rte` property on a filter entry configures the richtext editor toolbar
+- `toolbar` groups actions into categories (format, blocks, list, insert)
+- `plugins` is a space-separated list of enabled editor plugins
+- `icons`, `icons_url`, `skin_url` are required for the RTE to render
