@@ -1,0 +1,64 @@
+name: Tessl Skill Review
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tessl-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: tesslio/setup-tessl@v2
+
+      - name: Review all skills
+        run: |
+          THRESHOLD=50
+          PASS=0
+          FAIL=0
+          ERRORS=""
+
+          for dir in $(find skills -name SKILL.md -exec dirname {} \;); do
+            SKILL_NAME=$(basename "$dir")
+            echo "::group::Reviewing $SKILL_NAME"
+            OUTPUT=$(tessl skill review "$dir" 2>&1) || true
+            echo "$OUTPUT"
+            echo "::endgroup::"
+
+            SCORE=$(echo "$OUTPUT" | grep -oE '[0-9]+%' | tail -1 | tr -d '%')
+            if [ -z "$SCORE" ]; then
+              echo "::warning::Could not parse score for $SKILL_NAME"
+              SCORE=0
+            fi
+
+            if [ "$SCORE" -lt "$THRESHOLD" ]; then
+              FAIL=$((FAIL + 1))
+              ERRORS="$ERRORS\n  ❌ $SKILL_NAME: ${SCORE}% (below ${THRESHOLD}%)"
+            else
+              PASS=$((PASS + 1))
+            fi
+          done
+
+          TOTAL=$((PASS + FAIL))
+          echo ""
+          echo "============================="
+          echo "  Skill Review Summary"
+          echo "============================="
+          echo "  Total:  $TOTAL"
+          echo "  Passed: $PASS"
+          echo "  Failed: $FAIL"
+          if [ -n "$ERRORS" ]; then
+            echo ""
+            echo "  Failed skills:"
+            echo -e "$ERRORS"
+          fi
+          echo "============================="
+
+          if [ "$FAIL" -gt 0 ]; then
+            echo "::error::$FAIL skill(s) scored below ${THRESHOLD}%"
+            exit 1
+          fi
+
