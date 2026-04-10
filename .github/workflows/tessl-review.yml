@@ -1,0 +1,141 @@
+name: Tessl Skill Review
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tessl-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: tesslio/setup-tessl@v2
+
+      - name: Detect changed skills
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+            CHANGED_SKILLS=$(echo "$CHANGED_FILES" | grep -oE '^skills/[^/]+' | sort -u || true)
+            if [ -z "$CHANGED_SKILLS" ]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "No skill files changed."
+            else
+              echo "skip=false" >> "$GITHUB_OUTPUT"
+              DIRS=""
+              for skill_path in $CHANGED_SKILLS; do
+                if [ -f "$skill_path/SKILL.md" ]; then
+                  DIRS="$DIRS $skill_path"
+                fi
+              done
+              echo "dirs=$DIRS" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "dirs=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post skip summary
+        if: steps.detect.outputs.skip == 'true'
+        run: |
+          echo "## Skill Review" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "No skills changed — review skipped." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Review skills
+        if: steps.detect.outputs.skip != 'true'
+        run: |
+          THRESHOLD=50
+          PASS=0
+          FAIL=0
+          SUMMARY_ROWS=""
+          ERRORS=""
+
+          SKILL_DIRS_INPUT="${{ steps.detect.outputs.dirs }}"
+          SKILL_LIST_FILE=$(mktemp)
+          trap 'rm -f "$SKILL_LIST_FILE"' EXIT
+
+          if [ -z "$SKILL_DIRS_INPUT" ]; then
+            # Push to main or no filter: review all skills
+            find skills -name SKILL.md -exec dirname {} \; > "$SKILL_LIST_FILE"
+          else
+            # PR mode: use detected skill dirs
+            printf '%s\n' $SKILL_DIRS_INPUT > "$SKILL_LIST_FILE"
+          fi
+
+          while IFS= read -r dir; do
+            [ -z "$dir" ] && continue
+            SKILL_NAME=$(basename "$dir")
+            echo "::group::Reviewing $SKILL_NAME"
+
+            EXIT_CODE=0
+            OUTPUT=$(tessl skill review "$dir" 2>&1) || EXIT_CODE=$?
+            echo "$OUTPUT"
+            echo "::endgroup::"
+
+            if [ "$EXIT_CODE" -ne 0 ]; then
+              echo "::warning::tessl skill review failed for $SKILL_NAME (exit code $EXIT_CODE)"
+              FAIL=$((FAIL + 1))
+              SUMMARY_ROWS="$SUMMARY_ROWS| $SKILL_NAME | error | ❌ |\n"
+              continue
+            fi
+
+            SCORE=$(echo "$OUTPUT" | grep -oE '[0-9]+%' | tail -1 | tr -d '%')
+            if [ -z "$SCORE" ]; then
+              echo "::warning::Could not parse score for $SKILL_NAME"
+              SCORE=0
+            fi
+
+            if [ "$SCORE" -lt "$THRESHOLD" ]; then
+              FAIL=$((FAIL + 1))
+              ERRORS="$ERRORS\n  ❌ $SKILL_NAME: ${SCORE}% (below ${THRESHOLD}%)"
+              SUMMARY_ROWS="$SUMMARY_ROWS| $SKILL_NAME | ${SCORE}% | ❌ |\n"
+            else
+              PASS=$((PASS + 1))
+              SUMMARY_ROWS="$SUMMARY_ROWS| $SKILL_NAME | ${SCORE}% | ✅ |\n"
+            fi
+          done < "$SKILL_LIST_FILE"
+
+          TOTAL=$((PASS + FAIL))
+
+          # Fail if no skills were reviewed (push to main only)
+          if [ "$TOTAL" -eq 0 ] && [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "::error::No skills were reviewed — expected at least one"
+            exit 1
+          fi
+
+          # Write GitHub Step Summary
+          {
+            echo "## Skill Review"
+            echo ""
+            echo "| Skill | Score | Status |"
+            echo "|-------|-------|--------|"
+            echo -e "$SUMMARY_ROWS"
+            echo "| **Total** | **$PASS/$TOTAL passed** | $([ "$FAIL" -eq 0 ] && echo '✅' || echo '❌') |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # Stdout summary for logs
+          echo ""
+          echo "============================="
+          echo "  Skill Review Summary"
+          echo "============================="
+          echo "  Total:  $TOTAL"
+          echo "  Passed: $PASS"
+          echo "  Failed: $FAIL"
+          if [ -n "$ERRORS" ]; then
+            echo ""
+            echo "  Failed skills:"
+            echo -e "$ERRORS"
+          fi
+          echo "============================="
+
+          if [ "$FAIL" -gt 0 ]; then
+            echo "::error::$FAIL skill(s) scored below ${THRESHOLD}%"
+            exit 1
+          fi
+
