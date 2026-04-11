@@ -7,7 +7,7 @@ Patterns for connecting App Builder SPA components to backend Runtime actions.
 Action URLs follow the pattern:
 
 ```
-https://<namespace>.adobeioruntime.net/api/v1/web/<package>/<action-name>
+https://<namespace>.adobeio-static.net/api/v1/web/<package>/<action-name>
 ```
 
 In development (`aio app dev`), the CLI provides local action URLs. In production, use the deployed URLs from `app.config.yaml`.
@@ -51,7 +51,7 @@ During local development, `aio app dev` starts a local proxy server and sets act
 In production, action URLs follow the Adobe I/O Runtime pattern:
 
 ```
-https://<namespace>.adobeioruntime.net/api/v1/web/<package>/<action-name>
+https://<namespace>.adobeio-static.net/api/v1/web/<package>/<action-name>
 ```
 
 These URLs are written into `config.json` by `aio app build` during the deployment process.
@@ -64,7 +64,7 @@ import config from '../config.json';
 const actionUrl = config['dx-excshell-1']['actions']['my-action'];
 
 // ❌ Avoid — breaks when switching between dev and production
-const actionUrl = 'https://my-ns.adobeioruntime.net/api/v1/web/my-pkg/my-action';
+const actionUrl = 'https://my-ns.adobeio-static.net/api/v1/web/my-pkg/my-action';
 ```
 
 By importing from `config.json`, your SPA code works unchanged across local development and production deployments.

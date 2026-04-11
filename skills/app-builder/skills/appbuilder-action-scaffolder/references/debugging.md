@@ -93,7 +93,7 @@ aio rt activation list --limit 5
 aio rt activation logs <activation-id>
 
 # 3. If calling a web action over HTTP, add logging header
-curl -X GET "https://<namespace>.adobeioruntime.net/api/v1/web/<package>/<action>" \
+curl -X GET "https://<namespace>.adobeio-static.net/api/v1/web/<package>/<action>" \
   -H "x-ow-extra-logging: on"
 ```
 

@@ -260,7 +260,7 @@ By default, **successful** web action activations do not store logs. Only failed
 Send the header `x-ow-extra-logging: on` with your HTTP request to force log capture for that invocation:
 
 ```bash
-curl -X GET "https://<namespace>.adobeioruntime.net/api/v1/web/<package>/<action>" \
+curl -X GET "https://<namespace>.adobeio-static.net/api/v1/web/<package>/<action>" \
   -H "x-ow-extra-logging: on"
 ```
 

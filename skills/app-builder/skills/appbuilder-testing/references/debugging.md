@@ -97,7 +97,7 @@ Common test failures in App Builder projects and how to fix them.
 
 ## Integration test fails with 401 against deployed action
 
-**Symptom:** `fetch('https://<namespace>.adobeioruntime.net/...')` returns `{ statusCode: 401 }`.
+**Symptom:** `fetch('https://<namespace>.adobeio-static.net/...')` returns `{ statusCode: 401 }`.
 
 **Causes & fixes:**
 
@@ -108,7 +108,7 @@ Common test failures in App Builder projects and how to fix them.
      headers: { Authorization: `Bearer ${token}` }
    });
    ```
-3. **Wrong action URL** — Verify namespace and package name match `aio runtime namespace get`. The URL pattern is `https://<namespace>.adobeioruntime.net/api/v1/web/<package>/<action>`.
+3. **Wrong action URL** — Verify namespace and package name match `aio runtime namespace get`. The URL pattern is `https://<namespace>.adobeio-static.net/api/v1/web/<package>/<action>`.
 
 ## `aio app test` runs but finds no tests
 

@@ -83,7 +83,16 @@ Actions are grouped into packages. Each extension template creates its own packa
 When `require-adobe-auth: true` is set, the Experience Cloud shell injects the user's IMS token. Access it via:
 
 ```javascript
-const token = params.__ow_headers.authorization.replace('Bearer ', '');
+function getBearerToken(params) {
+  if (params.__ow_headers &&
+      params.__ow_headers.authorization &&
+      params.__ow_headers.authorization.startsWith('Bearer ')) {
+    return params.__ow_headers.authorization.substring('Bearer '.length)
+  }
+  return undefined
+}
+
+const token = getBearerToken(params)
 ```
 
 ### Service-to-service (OAuth S2S)
